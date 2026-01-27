@@ -56,6 +56,6 @@ export async function deleteUser(id) {
 
   const {
     rows: [user],
-  } = await await db.query(sql, [id]);
+  } = await db.query(sql, [id]);
   return user;
 }

@@ -22,11 +22,25 @@ router.post(
     if (isUsernameTaken === false) {
       const user = await createUser(username, password);
       const token = createToken({ id: user.id });
-      res.status(201).send(token);
+      // only backend
+      // res.status(201).send(token);
+      // frontend
+      res
+        .cookie("token", token, {
+          httpOnly: true,
+          secure: true,
+          sameSite: "strict",
+          maxAge: 1000 * 60 * 60 * 24,
+        })
+        .status(201)
+        .json({
+          success: true,
+          user: { id: user.id, username: user.username },
+        });
     } else {
-      return res.status(409).send("Provided username is taken.");
+      return res.status(409).json({ error: "Provided username is taken." });
     }
-  }
+  },
 );
 
 router.post(
@@ -35,17 +49,40 @@ router.post(
   async (req, res) => {
     const { username, password } = req.body;
     const user = await getUserByUsernameAndPassword(username, password);
-    if (!user) return res.status(401).send("Invalid username or password.");
+    if (!user)
+      return res.status(401).json({ error: "Invalid username or password." });
     const token = createToken({ id: user.id });
-    res.send(token);
-  }
+
+    // only backend
+    // res.status(201).send(token);
+    // frontend
+
+    res
+      .cookie("token", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax",
+        maxAge: 1000 * 60 * 60 * 24,
+      })
+      .json({ success: true, user: { id: user.id, username: user.username } });
+  },
 );
 
 router.use(requireUser);
+
+router.get("/me", (req, res) => {
+  const user = req.user;
+  console.log("me, user", user);
+  res.json({ user: { id: user.id, username: user.username } });
+});
+
+router.post("/logout", (req, res) => {
+  res.clearCookie("token").json({ success: true });
+});
 
 router.delete("/delete", async (req, res) => {
   const userId = req.user.id;
   const user = await deleteUser(userId);
   console.log("I need a username. What is inside user", user);
-  return res.status(201).send(`Account has been deleted.`);
+  return res.status(201).json({ success: `Account has been deleted.` });
 });
