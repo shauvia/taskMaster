@@ -10,18 +10,18 @@ export async function createTask(name, description, due_date, userId) {
 }
 
 export async function getAllTasksByUserId(userId) {
-  const sql = `SELECT * FROM tasks where owner_id = $1`;
+  const sql = `SELECT * FROM tasks where owner_id = $1 ORDER BY id`;
 
   const { rows: tasks } = await db.query(sql, [userId]);
   return tasks;
 }
 
-export async function updateTask(name, description, due_date, taskId) {
-  const sql = `UPDATE tasks SET name = $1, description = $2, due_date = $3 WHERE id = taskId RETURNIN *`;
+export async function updateTask(name, description, due_date, taskId, userId) {
+  const sql = `UPDATE tasks SET name = $1, description = $2, due_date = $3 WHERE id = $4 AND owner_id = $5 RETURNING *`;
 
   const {
     rows: [task],
-  } = await db.query(sql, [name, description, due_date, taskId]);
+  } = await db.query(sql, [name, description, due_date, taskId, userId]);
   return task;
 }
 
@@ -40,5 +40,13 @@ export async function updateTaskIsFinished(isFinished, taskId, userId) {
     rows: [task],
   } = await db.query(sql, [isFinished, taskId, userId]);
 
+  return task;
+}
+
+export async function getTaskByTaskId(taskId) {
+  const sql = `SELECT * FROM tasks WHERE id = $1`;
+  const {
+    rows: [task],
+  } = await db.query(sql, [taskId]);
   return task;
 }
