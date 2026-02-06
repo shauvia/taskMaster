@@ -7,32 +7,21 @@ import TaskList from "./TaskList.jsx";
 export default function TaskPage() {
   const [tasks, setTasks] = useState([]);
   const syncTasks = async () => {
+    console.log("syncTasks start");
     const allTasks = await getTasks();
-    console.log("allTasks", allTasks);
-    setTasks(allTasks);
+    console.log("getTasks returned", allTasks);
+    setTasks([...allTasks]);
+    console.log("setTasks done");
   };
 
   useEffect(() => {
     syncTasks();
   }, []);
 
-  //   useEffect(() => {
-  //     (async () => {
-  //       const tasks = await getTasks();
-  //       setTasks(tasks);
-  //     })();
-  //   }, []);
-
   return (
     <>
       <h2>Tasks</h2>
-      <ul>
-        {/* {tasks.map((task) => (
-          <li key={task.id}>{task.title}</li>
-        ))} */}
-
-        <TaskList tasks={tasks} />
-      </ul>
+      <TaskList tasks={tasks} syncTasks={syncTasks} />
     </>
   );
 }

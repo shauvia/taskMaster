@@ -64,7 +64,7 @@ export function AuthProvider({ children }) {
         console.error(
           "checkAuth failed:",
           response.status,
-          response.statusText
+          response.statusText,
         );
       }
     } catch (err) {
@@ -101,67 +101,3 @@ export function useAuth() {
   if (!context) throw Error("useAuth must be used within AuthProvider");
   return context;
 }
-
-// export function AuthProvider({ children }) {
-//   const register = async (credentials) => {
-//     const res = await fetch("/api/users/register", {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify(credentials),
-//       credentials: "include",
-//     });
-
-//     if (!response.ok) {
-//       const err = await response.json();
-//       throw new Error(err.error);
-//     }
-
-//     const data = await response.json();
-//     setUser(data.user || null); // optional, depending on backend
-//     return data;
-//   };
-
-//   const login = async (credentials) => {
-//     const response = await fetch("/api/users/login", {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify(credentials),
-//       credentials: "include",
-//     });
-
-//     if (!response.ok) {
-//       const err = await response.json();
-//       throw new Error(err.error);
-//     }
-
-//     const data = await response.json();
-//     setUser(data.user || null);
-//     return data;
-//   };
-
-//   const logout = async () => {
-//     await fetch("/api/users/logout", {
-//       method: "POST",
-//       credentials: "include",
-//     });
-
-//     setUser(null);
-//   };
-
-//   const value = {
-//     user,
-//     loading,
-//     login,
-//     register,
-//     logout,
-//     isAuthenticated: !!user,
-//   };
-
-//   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-// }
-
-// export function useAuth() {
-//   const ctx = useContext(AuthContext);
-//   if (!ctx) throw new Error("useAuth must be used inside AuthProvider");
-//   return ctx;
-// }

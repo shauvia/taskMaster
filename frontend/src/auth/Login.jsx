@@ -1,6 +1,7 @@
 import { useAuth } from "./AuthContext";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
+import logo from "../logo/logo.png";
 
 export default function Login() {
   const { login, isAuthenticated, loading } = useAuth();
@@ -28,19 +29,20 @@ export default function Login() {
   };
 
   return (
-    <>
-      <form action={tryLogin}>
-        <label>
-          Username
-          <input type="text" name="username" required />
-        </label>
-        <label>
-          Password
-          <input type="password" name="password" required />
-        </label>
+    <div className="login-container">
+      <Link to="/homepage" className="brand">
+        <img id="hpLogo" alt="taskmaster logo" src={logo}></img>
+      </Link>
+      <form id="loginForm" action={tryLogin}>
+        <label htmlFor="username">Username</label>
+        <input id="username" type="text" name="username" required />
+
+        <label htmlFor="password">Password</label>
+        <input id="password" type="password" name="password" required />
+
         <button>Login</button>
         {error && <p role="alert">{error}</p>}
       </form>
-    </>
+    </div>
   );
 }

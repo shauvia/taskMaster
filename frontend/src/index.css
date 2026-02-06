@@ -1,0 +1,251 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  background-color: rgb(234, 245, 245);
+  font-family: "Montserrat", sans-serif;
+  text-transform: uppercase;
+}
+
+a {
+  border-bottom: none;
+  text-decoration: none;
+}
+
+.homepage-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto;
+  column-gap: 3ch;
+  row-gap: 5ch;
+  grid-template-areas: "hpLogo hpWelcome";
+  justify-items: center;
+  align-items: center;
+  /* border: 3px solid yellow; */
+}
+
+.brand {
+  grid-area: hpLogo;
+  border: 1px solid rgb(255, 250, 241);
+  border-radius: 2em;
+}
+#hpWelcome {
+  grid-area: hpWelcome;
+  font-size: 2ch;
+}
+
+#hpWelcome > h1 {
+  padding-bottom: 0.5em;
+}
+
+#hpWelcome > p {
+  padding-bottom: 3em;
+}
+
+#hpCreateAccount {
+  border: 2px solid rgb(110, 167, 167);
+  padding: 1em;
+  width: 100%;
+  justify-self: start;
+  margin-bottom: 1.5em;
+  background-color: rgb(249, 255, 249);
+  transition:
+    background-color 200ms ease,
+    border-color 200ms ease,
+    color 200ms ease;
+  cursor: pointer;
+  color: rgb(79, 144, 144);
+}
+
+#hpCreateAccount:hover {
+  background-color: rgb(110, 167, 167);
+  border-color: rgb(90, 140, 140);
+  color: white;
+}
+
+#hpLogin {
+  border: 2px solid rgb(110, 167, 167);
+  width: 100%;
+  padding: 1em;
+  justify-self: end;
+  text-align: right;
+  background-color: rgb(249, 255, 249);
+  transition:
+    background-color 200ms ease,
+    border-color 200ms ease,
+    color 200ms ease;
+  cursor: pointer;
+  color: rgb(79, 144, 144);
+}
+
+#hpLogin:hover {
+  background-color: rgb(110, 167, 167);
+  border-color: rgb(90, 140, 140);
+  color: white;
+}
+
+/* register page */
+.register-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto;
+  column-gap: 3ch;
+  row-gap: 5ch;
+  grid-template-areas: "hpLogo reg";
+  justify-items: center;
+  align-items: center;
+  outline: 2px solid black;
+  height: 100vh;
+  width: 100%;
+}
+
+.brand {
+  grid-area: hpLogo;
+  border: 1px solid rgb(255, 250, 241);
+  border-radius: 2em;
+}
+
+.reg {
+  grid-area: reg;
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+}
+
+#registerForm {
+  /* outline: 2px solid olivedrab; */
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem; /* spacing between each label/input pair */
+  width: 25em;
+  height: auto;
+  justify-content: center;
+  align-items: center;
+}
+
+#registerForm label {
+  /* outline: 2px solid rgb(56, 35, 142); */
+  display: block; /* ensures label takes full width */
+  margin-bottom: 0.25rem; /* small spacing above input */
+  width: 25vh;
+  padding: 2ch;
+  border: 1px solid rgb(214, 198, 166);
+}
+
+/* #registerForm input {
+  width: 25vh;
+  /* outline: 2px solid rgb(174, 154, 24); */
+/* padding: 1ch;
+  font-size: 2ch;
+  color: rgb(90, 140, 140);
+  margin-bottom: 4ch;
+  #registerForm input:-webkit-autofill,
+  #registerForm input:-webkit-autofill:hover,
+  #registerForm input:-webkit-autofill:focus,
+  #registerForm input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px rgb(249, 255, 249) inset;
+    -webkit-text-fill-color: rgb(90, 140, 140);
+    transition: background-color 9999s ease-in-out 0s;
+  } */
+/* } */
+
+#registerForm input {
+  width: 25vh;
+  padding: 1ch;
+  font-size: 2ch;
+  color: rgb(90, 140, 140);
+  margin-bottom: 4ch;
+  background-color: rgb(249, 255, 249);
+  border: 2px solid rgb(110, 167, 167);
+}
+
+#registerForm input:-webkit-autofill,
+#registerForm input:-webkit-autofill:hover,
+#registerForm input:-webkit-autofill:focus,
+#registerForm input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px rgb(249, 255, 249) inset;
+  -webkit-text-fill-color: rgb(90, 140, 140);
+  transition: background-color 9999s ease-in-out 0s;
+}
+
+#registerForm button {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.5em;
+  width: 25vh;
+  padding: 1ch;
+  background-color: rgb(138, 194, 194);
+  border-color: rgb(90, 140, 140);
+}
+
+/* login page */
+
+.login-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto;
+  column-gap: 3ch;
+  row-gap: 5ch;
+  grid-template-areas: "hpLogo reg";
+  justify-items: center;
+  align-items: center;
+  outline: 2px solid black;
+  height: 100vh;
+  width: 100%;
+}
+
+.brand {
+  grid-area: hpLogo;
+  border: 1px solid rgb(255, 250, 241);
+  border-radius: 2em;
+}
+
+#loginForm {
+  /* outline: 2px solid olivedrab; */
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem; /* spacing between each label/input pair */
+  width: 25em;
+  height: auto;
+  justify-content: center;
+  align-items: center;
+}
+
+#loginForm label {
+  /* outline: 2px solid rgb(56, 35, 142); */
+  display: block; /* ensures label takes full width */
+  margin-bottom: 0.25rem; /* small spacing above input */
+  width: 25vh;
+  padding: 2ch;
+  border: 1px solid rgb(214, 198, 166);
+}
+
+#loginForm input {
+  width: 25vh;
+  padding: 1ch;
+  font-size: 2ch;
+  color: rgb(90, 140, 140);
+  margin-bottom: 4ch;
+  background-color: rgb(249, 255, 249);
+  border: 2px solid rgb(110, 167, 167);
+}
+
+#loginForm input:-webkit-autofill,
+#loginForm input:-webkit-autofill:hover,
+#loginForm input:-webkit-autofill:focus,
+#loginForm input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px rgb(249, 255, 249) inset;
+  -webkit-text-fill-color: rgb(90, 140, 140);
+  transition: background-color 9999s ease-in-out 0s;
+}
+
+#loginForm button {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.5em;
+  width: 25vh;
+  padding: 1ch;
+  background-color: rgb(173, 221, 221);
+  border-color: rgb(140, 189, 189);
+}
