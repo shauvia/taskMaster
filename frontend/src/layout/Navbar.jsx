@@ -27,7 +27,7 @@ export default function Navbar() {
   return (
     <header className="site-header">
       {/* Brand link goes to homepage when logged out, account when logged in */}
-      <NavLink to={isAuthenticated ? "/account" : "/"} className="brand">
+      <NavLink to={isAuthenticated ? "/account" : "/"} className="navbarBrand">
         <img
           id="logo"
           alt="taskmaster logo"
@@ -49,45 +49,7 @@ export default function Navbar() {
             </button>
           </>
         ) : null}
-        {/* // : (
-        //   <>
-        //     <h1>Welcome to Taskmaster</h1>
-        //     <p>Your productivity starts here.</p>
-        //     <NavLink to="/register" className="nav-link">
-        //       Register
-        //     </NavLink>
-        //     <NavLink to="/login" className="nav-link">
-        //       Log in
-        //     </NavLink>
-        //   </>
-        // ) */}
       </nav>
     </header>
   );
-}
-
-{
-  /* <header>
-      {isAuthenticated ? (
-        <>
-          <NavLink to="/homepage" className="brand">
-            <img id="logo" alt="taskmaster logo" src={logo}></img>
-          </NavLink>
-          <NavLink to="/account">Account</NavLink>
-          <p
-            onClick={(e) => {
-              e.preventDefault();
-              handleLogOut();
-            }}
-            className="logout-link"
-          >
-            Log out
-          </p>
-        </>
-      ) : (
-        <>
-          <Home />
-        </>
-      )}
-    </header> */
 }

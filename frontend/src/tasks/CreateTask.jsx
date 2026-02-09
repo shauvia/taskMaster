@@ -1,9 +1,10 @@
 import { createTask } from "../api/apiTasks.js";
 import { useAuth } from "../auth/AuthContext";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useOutletContext } from "react-router";
 
 export default function CreateTask() {
+  const { syncTasks } = useOutletContext();
   const { isAuthenticated } = useAuth();
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -26,6 +27,7 @@ export default function CreateTask() {
       };
       console.log("createdTask", createdTask);
       await createTask(createdTask);
+      await syncTasks();
       navigate("/account"); //to display created task
     } catch (e) {
       setError(e.message);

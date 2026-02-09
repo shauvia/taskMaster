@@ -5,34 +5,14 @@ import TaskPage from "../tasks/TaskPage.jsx";
 import { useNavigate } from "react-router";
 
 export default function Account() {
-  const { user, isAuthenticated } = useAuth();
-  const navigate = useNavigate();
-  console.log("account user", user);
-  // const [userAccount, setUserAccount] = useState({});
+  const { isAuthenticated } = useAuth();
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    (async () => {
-      setError(null);
-      try {
-        // user = await accountDetails(token);
-        // setUserAccount(user);
-      } catch (e) {
-        console.log("Error:", e.message);
-        setError(e.message);
-      }
-    })();
-  }, []);
-
   return (
-    <>
+    <div className="sidebar">
       {isAuthenticated ? (
         <>
-          <h2>Welcome, {user.username}</h2>
           <TaskPage />
-          <button onClick={() => navigate("/createTask")}>
-            Create a new task
-          </button>
         </>
       ) : (
         <p>
@@ -40,6 +20,6 @@ export default function Account() {
         </p>
       )}
       {error && <p role="alert">{error}</p>}
-    </>
+    </div>
   );
 }

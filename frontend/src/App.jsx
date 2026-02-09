@@ -8,7 +8,7 @@ import { Navigate } from "react-router";
 import Home from "./homepage/homepage.jsx";
 import TaskPage from "./tasks/TaskPage.jsx";
 import CreateTask from "./tasks/CreateTask.jsx";
-import TaskEdit from "./tasks/TaskEdit.jsx";
+import TaskDetails from "./tasks/TaskDetails.jsx";
 
 export default function App() {
   return (
@@ -20,10 +20,13 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/account" element={<Account />} />
-          <Route path="/tasks" element={<TaskPage />} />
-          <Route path="/createTask" element={<CreateTask />} />
-          <Route path="/tasks/:taskId" element={<TaskEdit />} />
+          {/* <Route path="/tasks" element={<TaskPage />} /> */}
+
           <Route path="*" element={<Error404 />} />
+          <Route path="/tasks" element={<TaskPage />}>
+            <Route path="/tasks/:taskId" element={<TaskDetails />} />
+            <Route path="/tasks/new" element={<CreateTask />} />
+          </Route>
         </Route>
       </Routes>
     </>
