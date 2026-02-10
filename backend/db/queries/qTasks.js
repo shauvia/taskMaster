@@ -1,11 +1,17 @@
 import db from "#db/client";
 
-export async function createTask(name, description, due_date, userId) {
-  const sql = `INSERT INTO tasks (name, description, due_date, owner_id ) VALUES ($1, $2, $3, $4) RETURNING *`;
+export async function createTask(
+  name,
+  description,
+  due_date,
+  userId,
+  assigneeId,
+) {
+  const sql = `INSERT INTO tasks (name, description, due_date, owner_id, assignee_id ) VALUES ($1, $2, $3, $4, $5) RETURNING *`;
 
   const {
     rows: [task],
-  } = await db.query(sql, [name, description, due_date, userId]);
+  } = await db.query(sql, [name, description, due_date, userId, assigneeId]);
   return task;
 }
 

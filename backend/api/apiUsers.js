@@ -57,6 +57,8 @@ router.post(
     // res.status(201).send(token);
     // frontend
 
+    console.log("Token", token);
+
     res
       .cookie("token", token, {
         httpOnly: true,

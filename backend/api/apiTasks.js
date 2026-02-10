@@ -12,7 +12,7 @@ import {
 } from "../db/queries/qTasks.js";
 import requireUser from "#middleware/requireUser";
 
-router.use(requireUser); // does it take care of token and checks out if user is logged in?
+router.use(requireUser);
 
 router.param("id", async (req, res, next, id) => {
   const task = await getTaskByTaskId(id);
@@ -27,45 +27,39 @@ router.param("id", async (req, res, next, id) => {
   next();
 });
 
-router.post(
-  "/",
-  requireBody(["name", "description", "due_date"]),
-  async (req, res) => {
-    const userId = req.user.id;
-    const { name, description, due_date } = req.body;
-    const task = await createTask(name, description, due_date, userId);
-    console.log("updated task", task);
-    res.status(201).json(task);
-  },
-);
+router.post("/", requireBody(["name"]), async (req, res) => {
+  const userId = req.user.id;
+  const { name, description, due_date } = req.body;
+  const task = await createTask(
+    name,
+    description ?? null,
+    due_date ?? null,
+    userId,
+    assigneeId ?? null,
+  );
+  console.log("updated task", task);
+  res.status(201).json(task);
+});
 
 router.get("/", async (req, res) => {
-  console.log("Sialala");
   const userId = req.user.id;
-  console.log("Fetching tasks for user:", req.user.id);
   const alltasks = await getAllTasksByUserId(userId);
-  console.log("Fetching tasks for user:", alltasks);
-  console.log("1st task:", typeof alltasks[0].due_date);
   res.json(alltasks);
 });
 
-router.put(
-  "/:id",
-  requireBody(["name", "description", "due_date"]),
-  async (req, res) => {
-    const { name, description, due_date } = req.body;
-    const userId = req.user.id;
-    const taskId = req.params.id;
-    const updatedTask = await updateTask(
-      name,
-      description,
-      due_date,
-      taskId,
-      userId,
-    );
-    res.json(updatedTask);
-  },
-);
+router.put("/:id", requireBody(["name"]), async (req, res) => {
+  const { name, description, due_date } = req.body;
+  const userId = req.user.id;
+  const taskId = req.params.id;
+  const updatedTask = await updateTask(
+    name,
+    description ?? null,
+    due_date ?? null,
+    userId,
+    assigneeId ?? null,
+  );
+  res.json(updatedTask);
+});
 
 router.get("/:id", async (req, res) => {
   const task = req.task;
