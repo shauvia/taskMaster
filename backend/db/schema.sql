@@ -1,6 +1,5 @@
-DROP TABLE IF EXISTS users_tasks;
-DROP TABLE IF EXISTS tasks;
-DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS project_members, project_tasks, tasks, projects, users CASCADE;
+
 
 CREATE TABLE users (
     id serial PRIMARY KEY,
@@ -21,7 +20,9 @@ CREATE TABLE tasks(
     assignee_id INTEGER REFERENCES users(id) ON DELETE SET NULL
 );
 
-CREATE TABLE project (
+
+
+CREATE TABLE projects (
     id serial PRIMARY KEY,
     name TEXT NOT NULL,
     description TEXT,
@@ -31,14 +32,14 @@ CREATE TABLE project (
 
 CREATE TABLE project_tasks (
     id serial PRIMARY KEY,
-    project_id INTEGER NOT NULL REFERENCES project(id) ON DELETE CASCADE,
+    project_id INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
     task_id INTEGER NOT NULL REFERENCES tasks(id) ON DELETE CASCADE,
     UNIQUE (project_id, task_id)
 );
 
 CREATE TABLE project_members (
     id serial PRIMARY KEY,
-    project_id INTEGER NOT NULL REFERENCES project(id) ON DELETE CASCADE,
+    project_id INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
     member_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     role TEXT DEFAULT 'member',
     UNIQUE (project_id, member_id)

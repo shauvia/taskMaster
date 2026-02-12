@@ -8,8 +8,12 @@ import {
   createProject,
   linkTaskToProject,
   linkMemberToProject,
+  getAllProjectsByOwnerId,
+  getAllTasksByProjectId,
+  getAllMembersByProjectId,
 } from "../db/queries/qProjects.js";
 import { createTask } from "../db/queries/qTasks.js";
+
 router.use(requireUser);
 
 router.post("/", requireBody(["name"]), async (req, res) => {
@@ -23,7 +27,7 @@ router.post("/:id/tasks", requireBody(["name"]), async (req, res) => {
   let linkedMember;
   const userId = req.user.id;
   const projectId = req.params.id;
-  const { name, description, due_date, assigneeId } = req.body;
+  const { name, description, due_date, assigneeId, role } = req.body;
   const task = await createTask(
     name,
     description ?? null,
@@ -31,18 +35,36 @@ router.post("/:id/tasks", requireBody(["name"]), async (req, res) => {
     userId,
     assigneeId ?? null,
   );
-  if (!task) return res.status(404).json({ error: "Task not found" });
-  if (task.owner_id !== req.user.id)
-    res
-      .status(403)
-      .json({ error: "You do not have permission to access this task" });
+  //   if (!task) return res.status(404).json({ error: "Task not found" });
+  //   if (task.owner_id !== req.user.id)
+  //     return res
+  //       .status(403)
+  //       .json({ error: "You do not have permission to access this task" });
   const linkedTask = await linkTaskToProject(projectId, task.id);
   if (task.assignee_id) {
     linkedMember = await linkMemberToProject(
       projectId,
       task.assignee_id,
-      "member",
+      role ?? "member",
     );
   }
   res.status(201).json({ task, linkedTask, linkedMember }); //should it be returning all?
+});
+
+router.get("/", async (req, res) => {
+  const userId = req.user.id;
+  const allProjects = await getAllProjectsByOwnerId(userId);
+  res.json({ allProjects });
+});
+
+router.get("/:id/tasks", async (req, res) => {
+  const projectId = req.params.id;
+  const tasks = await getAllTasksByProjectId(projectId);
+  res.json({ tasks });
+});
+
+router.get("/:id/members", async (req, res) => {
+  const projectId = req.params.id;
+  const members = await getAllMembersByProjectId(projectId);
+  res.json({ members });
 });

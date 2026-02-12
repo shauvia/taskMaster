@@ -37,7 +37,6 @@ router.post("/", requireBody(["name"]), async (req, res) => {
     userId,
     assigneeId ?? null,
   );
-  console.log("updated task", task);
   res.status(201).json(task);
 });
 

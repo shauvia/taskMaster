@@ -25,7 +25,7 @@ app.use(
 app.use(getUserFromToken);
 app.use("/api/users", usersRouter);
 app.use("/api/tasks", tasksRouter);
-app.use("/api/project", projectRouter);
+app.use("/api/projects", projectRouter);
 app.use((err, req, res, next) => {
   // A switch statement can be used instead of if statements
   // when multiple cases are handled the same way.
