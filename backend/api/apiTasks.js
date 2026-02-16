@@ -35,7 +35,6 @@ router.post("/", requireBody(["name"]), async (req, res) => {
     description ?? null,
     due_date ?? null,
     userId,
-    assigneeId ?? null,
   );
   res.status(201).json(task);
 });
@@ -54,8 +53,8 @@ router.put("/:id", requireBody(["name"]), async (req, res) => {
     name,
     description ?? null,
     due_date ?? null,
+    taskId,
     userId,
-    assigneeId ?? null,
   );
   res.json(updatedTask);
 });

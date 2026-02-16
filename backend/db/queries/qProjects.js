@@ -11,7 +11,53 @@ export async function createProject(name, description, ownerId) {
   return project;
 }
 
-//createTask
+export async function createProjectTask(
+  name,
+  description,
+  due_date,
+  userId,
+  assigneeId,
+) {
+  const sql = `INSERT INTO tasks (name, description, due_date, owner_id, assignee_id) VALUES 
+    ($1, $2, $3, $4, $5) RETURNING *`;
+  const {
+    rows: [task],
+  } = await db.query(sql, [name, description, due_date, userId, assigneeId]);
+
+  return task;
+}
+
+// export async function getOneProjectTaskById(taskId) {
+//   const sql = `SELECT * FROM tasks WHERE id = $1`;
+//   const {
+//     rows: [task],
+//   } = await db.query(sql, [taskId]);
+
+//   return task;
+// } ???????????????????
+
+export async function updateProjectTask(
+  name,
+  description,
+  due_date,
+  userId,
+  assigneeId,
+  taskId,
+) {
+  const sql = `UPDATE tasks SET name = $1, description = $2, due_date = $3, owner_id = $4, assignee_id = $5 WHERE id = $6 RETURNING *`;
+  const {
+    rows: [task],
+  } = await db.query(sql, [
+    name,
+    description,
+    due_date,
+    userId,
+    assigneeId,
+    taskId,
+  ]);
+
+  return task;
+}
 
 export async function linkTaskToProject(projectId, taskId) {
   const sql = `INSERT INTO project_tasks (project_id, task_id) VALUES ($1, $2) RETURNING *`;
@@ -35,6 +81,31 @@ export async function linkMemberToProject(
   return projectMember;
 }
 
+export async function getProjectMemberByMemberAndProjectId(
+  memberId,
+  projectId,
+) {
+  const sql = `SELECT * FROM project_members WHERE member_id = $1 AND project_id = $2`;
+  const {
+    rows: [projectMember],
+  } = await db.query(sql, [memberId, projectId]);
+
+  return projectMember;
+}
+
+export async function updateLinkMemberToProject(
+  project_membersId,
+  projectId,
+  memberId,
+) {
+  const sql = `UPDATE project_members SET member_id = $3 WHERE project_id = $2 AND project_membersId = $1 RETURNING *`;
+  const {
+    rows: [projectMember],
+  } = await db.query(sql, [project_membersId, projectId, memberId]);
+
+  return projectMember;
+}
+
 export async function getAllProjectsByOwnerId(ownerId) {
   const sql = `SELECT * FROM projects WHERE owner_id = $1`;
   const { rows: projects } = await db.query(sql, [ownerId]);
@@ -42,7 +113,6 @@ export async function getAllProjectsByOwnerId(ownerId) {
 }
 
 export async function getAllTasksByProjectId(projectId) {
-  // zrobic to by ownerID też?
   const sql = `SELECT tasks.* FROM tasks 
   JOIN project_tasks ON project_tasks.task_id = tasks.id
   WHERE project_tasks.project_id = $1`;
@@ -52,7 +122,6 @@ export async function getAllTasksByProjectId(projectId) {
 }
 
 export async function getAllMembersByProjectId(projectId) {
-  // zrobic to by ownerID też?
   const sql = `SELECT users.* FROM users
   JOIN project_members ON project_members.member_id = users.id
   WHERE project_members.project_id = $1`;
@@ -80,12 +149,6 @@ export async function getAllProjectByMemberId(memberId) {
 
   return projects;
 }
-
-// export async function getAllProjectsByOwnerId(ownerId) {
-//   const sql = `SELECT * FROM projects WHERE owner_id = $1`;
-//   const { rows: projects } = await db.query(sql, [ownerId]);
-//   return projects;
-// }
 
 export async function getAllProjectTasksByMemberIdAndProjectId(
   memberId,

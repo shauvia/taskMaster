@@ -11,8 +11,22 @@ import {
   getAllProjectsByOwnerId,
   getAllTasksByProjectId,
   getAllMembersByProjectId,
+  getOneProjectById,
+  createProjectTask,
+  updateProjectTask,
+  getProjectMemberByMemberAndProjectId,
+  updateLinkMemberToProject,
 } from "../db/queries/qProjects.js";
-import { createTask } from "../db/queries/qTasks.js";
+// import { createTask } from "../db/queries/qTasks.js";
+
+//updateProjectTask(
+//   name,
+//   description,
+//   due_date,
+//   userId,
+//   assigneeId,
+//   taskId,
+// )
 
 router.use(requireUser);
 
@@ -27,19 +41,21 @@ router.post("/:id/tasks", requireBody(["name"]), async (req, res) => {
   let linkedMember;
   const userId = req.user.id;
   const projectId = req.params.id;
-  const { name, description, due_date, assigneeId, role } = req.body;
-  const task = await createTask(
+  const { name, description, due_date, assignee_id, role } = req.body;
+  console.log("backend, apiProject Creating task with data:", {
+    name,
+    description,
+    due_date,
+    assignee_id,
+    role,
+  });
+  const task = await createProjectTask(
     name,
     description ?? null,
     due_date ?? null,
     userId,
-    assigneeId ?? null,
+    assignee_id ?? null,
   );
-  //   if (!task) return res.status(404).json({ error: "Task not found" });
-  //   if (task.owner_id !== req.user.id)
-  //     return res
-  //       .status(403)
-  //       .json({ error: "You do not have permission to access this task" });
   const linkedTask = await linkTaskToProject(projectId, task.id);
   if (task.assignee_id) {
     linkedMember = await linkMemberToProject(
@@ -48,23 +64,46 @@ router.post("/:id/tasks", requireBody(["name"]), async (req, res) => {
       role ?? "member",
     );
   }
-  res.status(201).json({ task, linkedTask, linkedMember }); //should it be returning all?
+  res.status(201).json(task);
+});
+
+router.put("/:id/tasks/:taskId", async (req, res) => {
+  const userId = req.user.id;
+  const projectId = req.params.id;
+  const taskId = req.params.taskId;
+  const { name, description, due_date, assignee_id } = req.body;
+  const task = await updateProjectTask(
+    name,
+    description ?? null,
+    due_date ?? null,
+    userId,
+    assignee_id ?? null,
+    taskId,
+  );
+
+  res.json(task);
 });
 
 router.get("/", async (req, res) => {
   const userId = req.user.id;
   const allProjects = await getAllProjectsByOwnerId(userId);
-  res.json({ allProjects });
+  res.json(allProjects);
 });
 
 router.get("/:id/tasks", async (req, res) => {
   const projectId = req.params.id;
   const tasks = await getAllTasksByProjectId(projectId);
-  res.json({ tasks });
+  res.json(tasks);
 });
 
 router.get("/:id/members", async (req, res) => {
   const projectId = req.params.id;
   const members = await getAllMembersByProjectId(projectId);
-  res.json({ members });
+  res.json(members);
+});
+
+router.get("/:id", async (req, res) => {
+  const projectId = req.params.id;
+  const project = await getOneProjectById(projectId);
+  res.json(project);
 });

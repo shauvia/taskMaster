@@ -9,6 +9,7 @@ import {
   getUserByUsernameAndPassword,
   checkIsUsername,
   deleteUser,
+  getAllUsers,
 } from "../db/queries/qUsers.js";
 
 import requireUser from "#middleware/requireUser";
@@ -80,6 +81,11 @@ router.get("/me", (req, res) => {
 
 router.post("/logout", (req, res) => {
   res.clearCookie("token").json({ success: true });
+});
+
+router.get("/", async (req, res) => {
+  const users = await getAllUsers();
+  res.json(users);
 });
 
 router.delete("/delete", async (req, res) => {

@@ -1,22 +1,17 @@
 import db from "#db/client";
 
-export async function createTask(
-  name,
-  description,
-  due_date,
-  userId,
-  assigneeId,
-) {
-  const sql = `INSERT INTO tasks (name, description, due_date, owner_id, assignee_id ) VALUES ($1, $2, $3, $4, $5) RETURNING *`;
+export async function createTask(name, description, due_date, userId) {
+  const sql = `INSERT INTO tasks (name, description, due_date, owner_id) VALUES ($1, $2, $3, $4) RETURNING *`;
 
   const {
     rows: [task],
-  } = await db.query(sql, [name, description, due_date, userId, assigneeId]);
+  } = await db.query(sql, [name, description, due_date, userId]);
   return task;
 }
 
 export async function getAllTasksByUserId(userId) {
-  const sql = `SELECT * FROM tasks where owner_id = $1 ORDER BY id`;
+  const sql = `SELECT tasks.*
+    FROM tasks WHERE tasks.id NOT IN (SELECT task_id FROM project_tasks) AND owner_id = $1 ORDER BY id`;
 
   const { rows: tasks } = await db.query(sql, [userId]);
   return tasks;
@@ -50,7 +45,7 @@ export async function updateTaskIsFinished(isFinished, taskId, userId) {
 }
 
 export async function getTaskByTaskId(taskId) {
-  const sql = `SELECT * FROM tasks WHERE id = $1`;
+  const sql = `SELECT tasks.* FROM tasks WHERE id = $1 `;
   const {
     rows: [task],
   } = await db.query(sql, [taskId]);

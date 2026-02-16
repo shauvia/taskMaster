@@ -26,25 +26,25 @@ async function seed() {
     await createTask(`taske ${i}`, `description ${i}`, "2024-12-31", 4);
     await createTask(`taska ${i}`, `description ${i}`, "2024-12-31", 5);
   }
-  for (let i = 0; i < 3; i++) {
-    await createProject(
-      `chruper project ${i}`,
-      `super description ${i}`,
-      i + 1,
-    );
+  // for (let i = 0; i < 3; i++) {
+  //   await createProject(
+  //     `chruper project ${i}`,
+  //     `super description ${i}`,
+  //     i + 1,
+  //   );
 
-    await createTask(`tasky ${i}`, `description ${i}`, "2024-12-31", i + 1, 2);
-    await createTask(`taskl ${i}`, `description ${i}`, "2024-12-31", i + 1, 3);
-    await createTask(`taskm ${i}`, `description ${i}`, "2024-12-31", i + 1, 4);
-    await linkMemberToProject(i + 1, 1);
-    await linkMemberToProject(i + 1, 5);
-    await linkMemberToProject(i + 1, 4);
-  }
-  for (let i = 0; i < 3; i++) {
-    await linkTaskToProject(i + 1, 26 + i);
-    await linkTaskToProject(i + 1, 29 + i);
-    await linkTaskToProject(i + 1, 32 + i);
-  }
+  //   await createTask(`tasky ${i}`, `description ${i}`, "2024-12-31", i + 1, 2);
+  //   await createTask(`taskl ${i}`, `description ${i}`, "2024-12-31", i + 1, 3);
+  //   await createTask(`taskm ${i}`, `description ${i}`, "2024-12-31", i + 1, 4);
+  //   await linkMemberToProject(i + 1, 1);
+  //   await linkMemberToProject(i + 1, 5);
+  //   await linkMemberToProject(i + 1, 4);
+  // }
+  // for (let i = 0; i < 3; i++) {
+  //   await linkTaskToProject(i + 1, 26 + i);
+  //   await linkTaskToProject(i + 1, 29 + i);
+  //   await linkTaskToProject(i + 1, 32 + i);
+  // }
 
   // await createTask(name, description, due_date, userId, assigneeId);
   // await linkTaskToProject(projectId, taskId);
