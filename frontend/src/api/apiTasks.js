@@ -1,10 +1,8 @@
 const myApi = "/api";
 
-// credentials: "include" ??????
-
 export async function getTasks() {
   try {
-    const response = await fetch(myApi + "/tasks");
+    const response = await fetch(myApi + "/tasks", { credentials: "include" });
     console.log("get response", response);
     const result = await response.json();
     console.log("getTasks result", result);
@@ -32,6 +30,7 @@ export async function createTask(task) {
 }
 
 export async function updateTask(task, taskId) {
+  console.log("updateTask", task);
   const response = await fetch(myApi + "/tasks/" + taskId, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },

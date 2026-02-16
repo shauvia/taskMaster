@@ -3,16 +3,18 @@ import { useAuth } from "../auth/AuthContext";
 import { useEffect, useState } from "react";
 import TaskPage from "../tasks/TaskPage.jsx";
 import { useNavigate } from "react-router";
+import ProjectPage from "../projects/ProjectPage.jsx";
 
 export default function Account() {
   const { isAuthenticated } = useAuth();
   const [error, setError] = useState(null);
 
   return (
-    <div className="sidebar">
+    <div className="account-grid">
       {isAuthenticated ? (
         <>
           <TaskPage />
+          <ProjectPage />
         </>
       ) : (
         <p>

@@ -9,8 +9,6 @@ export default function CreateTask() {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  // use it somewhere, somehow?? isAuthenticated
-
   useEffect(() => {
     if (!isAuthenticated) {
       navigate("/login");
@@ -23,24 +21,24 @@ export default function CreateTask() {
       const createdTask = {
         name: formData.get("taskName"),
         description: formData.get("description"),
-        due_date: formData.get("dueDate"),
+        due_date: formData.get("dueDate") || null,
       };
       console.log("createdTask", createdTask);
       await createTask(createdTask);
       await syncTasks();
-      navigate("/account"); //to display created task
+      navigate("/account");
     } catch (e) {
       setError(e.message);
     }
   };
 
-  return (
+  const justTaskForm = (
     <>
       <h2>Add a new task</h2>
       <form action={tryCreateTask}>
         <label>
           Task name
-          <input type="text" name="taskName" />
+          <input type="text" name="taskName" required />
         </label>
         <label>
           Description
@@ -55,4 +53,5 @@ export default function CreateTask() {
       {error && <p role="alert">{error}</p>}
     </>
   );
+  return <>{justTaskForm}</>;
 }

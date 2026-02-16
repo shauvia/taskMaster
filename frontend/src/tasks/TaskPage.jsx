@@ -28,7 +28,9 @@ export default function TaskPage() {
           <h2>Welcome, {user?.username}</h2>
         </div>
         {tasks.length === 0 ? (
-          <p>No tasks yet. Click + to create one.</p>
+          <p>
+            No tasks yet. Click <span>+</span> to create one.
+          </p>
         ) : (
           <TaskList tasks={tasks} syncTasks={syncTasks} />
         )}

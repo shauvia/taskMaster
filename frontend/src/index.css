@@ -24,7 +24,6 @@ a {
   grid-template-areas: "hpLogo hpWelcome";
   justify-items: center;
   align-items: center;
-  /* border: 3px solid yellow; */
 }
 
 .brand {
@@ -102,12 +101,6 @@ a {
   width: 100%;
 }
 
-.brand {
-  grid-area: hpLogo;
-  border: 1px solid rgb(255, 250, 241);
-  border-radius: 2em;
-}
-
 .reg {
   grid-area: reg;
   display: flex;
@@ -116,10 +109,9 @@ a {
 }
 
 #registerForm {
-  /* outline: 2px solid olivedrab; */
   display: flex;
   flex-direction: column;
-  gap: 0.75rem; /* spacing between each label/input pair */
+  gap: 0.75rem;
   width: 25em;
   height: auto;
   justify-content: center;
@@ -127,9 +119,8 @@ a {
 }
 
 #registerForm label {
-  /* outline: 2px solid rgb(56, 35, 142); */
-  display: block; /* ensures label takes full width */
-  margin-bottom: 0.25rem; /* small spacing above input */
+  display: block;
+  margin-bottom: 0.25rem;
   width: 25vh;
   padding: 2ch;
   border: 1px solid rgb(214, 198, 166);
@@ -179,17 +170,10 @@ a {
   width: 100%;
 }
 
-.brand {
-  grid-area: hpLogo;
-  border: 1px solid rgb(255, 250, 241);
-  border-radius: 2em;
-}
-
 #loginForm {
-  /* outline: 2px solid olivedrab; */
   display: flex;
   flex-direction: column;
-  gap: 0.75rem; /* spacing between each label/input pair */
+  gap: 0.75rem;
   width: 25em;
   height: auto;
   justify-content: center;
@@ -197,9 +181,8 @@ a {
 }
 
 #loginForm label {
-  /* outline: 2px solid rgb(56, 35, 142); */
-  display: block; /* ensures label takes full width */
-  margin-bottom: 0.25rem; /* small spacing above input */
+  display: block;
+  margin-bottom: 0.25rem;
   width: 25vh;
   padding: 2ch;
   border: 1px solid rgb(214, 198, 166);
@@ -239,17 +222,12 @@ a {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  position: sticky; /* or fixed */
-  top: 0;
-  left: 0;
   width: 100%;
   padding: 0.75rem 1.25rem;
   border: 3px solid rgb(255, 250, 241);
-  /* background: #eaf5f5; */
 }
 
 .navbarBrand {
-  /* outline: 1px solid rgb(209, 14, 14); */
   display: inline-flex;
   align-items: center;
 }
@@ -258,14 +236,11 @@ a {
   width: 15ch;
   height: auto;
   border: 3px solid rgb(255, 250, 241);
-  /* border-radius: 2em; */
 }
 .site-nav {
-  /* outline: 1px solid rgb(209, 14, 14); */
   display: flex;
   gap: 1rem;
   align-items: center;
-  /* width: 25ch; */
 }
 
 .nav-link {
@@ -284,67 +259,42 @@ button.nav-link.logout-link {
   text-transform: uppercase;
 }
 
-/* account sidebar and tasks */
+.account-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
 
-/* .sidebar {
+.tasks-layout,
+.project-layout {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  height: fit-content;
+}
+
+.tasks-sidebar,
+.project-sidebar {
   display: flex;
   flex-direction: column;
   width: 320px;
-  min-height: 100vh;
+  min-height: auto;
+  height: fit-content;
   padding: 1rem;
   gap: 1rem;
   background: #f6fbfb;
   border-right: 1px solid #d9e6e6;
 }
 
-.sidebar > button {
-  align-self: flex-start;
-}
-
-.sidebar-tasklist {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  overflow-y: auto;
-  max-height: calc(100vh - 220px);
-}
-.sidebar-tasklist li {
-  padding: 0.75rem;
-  border: 1px solid #cddede;
-  border-radius: 8px;
-  background: #fff;
-}
-
-.tasks-layout {
-  display: flex;
-  gap: 1rem;
-}
-
-.tasks-sidebar {
-  width: 320px;
-}
-
-.tasks-detail {
-  flex: 1;
-} */
-
-.tasks-layout {
-  display: flex;
-  gap: 1rem;
-}
-
-.tasks-sidebar {
-  display: flex;
-  flex-direction: column;
-  width: 320px;
-  min-height: 100vh;
-  padding: 1rem;
-  gap: 1rem;
-  background: #f6fbfb;
-  border-right: 1px solid #d9e6e6;
+.tasks-sidebar span,
+.project-sidebar span {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid #6ea7a7;
+  background: #f9fff9;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: default;
 }
 
 .sidebar-header {
@@ -353,7 +303,8 @@ button.nav-link.logout-link {
   gap: 0.75rem;
 }
 
-.sidebar-header > button {
+.sidebar-header > button,
+.sidebar-header > a > button {
   align-self: flex-start;
   width: 36px;
   height: 36px;
@@ -377,15 +328,15 @@ button.nav-link.logout-link {
 .sidebar-tasklist li {
   padding: 0.75rem;
   border: 1px solid #cddede;
-  /* border-radius: 8px; */
   background: #fff;
 }
 
 /* task details */
 .tasks-detail {
   flex: 1;
-  min-height: 100vh;
   padding: 1rem;
+  min-height: auto;
+  height: fit-content;
 }
 
 .tasks-detail ul,
@@ -393,13 +344,6 @@ button.nav-link.logout-link {
   list-style: none;
   margin: 0;
   padding: 0;
-}
-
-.tasks-detail li {
-  border: 1px solid #cddede;
-  border-radius: 8px;
-  padding: 1rem;
-  background: #fff;
 }
 
 .tasks-detail form {
@@ -456,4 +400,65 @@ button.nav-link.logout-link {
   background: #f9fff9;
   border-radius: 6px;
   cursor: pointer;
+}
+
+.tasks-detail h2,
+p {
+  margin-bottom: 1ch;
+}
+
+.task-detail-view {
+  border: 1px solid #cddede;
+  border-radius: 10px;
+  padding: 1.25rem;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.task-detail-view h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.25rem;
+  color: #2b4f4f;
+}
+
+.task-detail-view p {
+  margin: 0.25rem 0;
+  color: #4b6a6a;
+}
+
+.task-detail-view button {
+  margin-top: 0.75rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid #6ea7a7;
+  background: #f9fff9;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.project-detail-header {
+  padding: 1rem;
+}
+
+.project-detail-header h2 {
+  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+  color: #2b4f4f;
+}
+
+.project-detail-header p {
+  margin-bottom: 1.5rem;
+  color: #4b6a6a;
+}
+
+.sidebar-tasklist li a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.sidebar-tasklist li a h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: #093838;
+  transition: color 200ms ease;
 }
