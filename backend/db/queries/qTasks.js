@@ -51,3 +51,12 @@ export async function getTaskByTaskId(taskId) {
   } = await db.query(sql, [taskId]);
   return task;
 }
+
+export async function updateTaskIsCompleted(isCompleted, taskId, userId) {
+  const sql = `UPDATE tasks SET is_completed = $1 WHERE id = $2 AND owner_id = $3 RETURNING *`;
+
+  const {
+    rows: [task],
+  } = await db.query(sql, [isCompleted, taskId, userId]);
+  return task;
+}

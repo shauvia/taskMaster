@@ -61,3 +61,21 @@ export async function getTask(taskId) {
   const result = await response.json();
   return result;
 }
+
+export async function updateTaskCompletion(taskId, isCompleted) {
+  const response = await fetch(myApi + "/tasks/" + taskId + "/complete", {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ is_completed: isCompleted }),
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    console.log("response", response);
+    const errorData = await response.json();
+    throw Error(errorData.error);
+  }
+
+  const result = await response.json();
+  return result;
+}

@@ -8,12 +8,10 @@ export default function TaskPage() {
   const [tasks, setTasks] = useState([]);
   const { user } = useAuth();
   const navigate = useNavigate();
+
   const syncTasks = async () => {
-    console.log("syncTasks start");
     const allTasks = await getTasks();
-    console.log("getTasks returned", allTasks);
     setTasks([...allTasks]);
-    console.log("setTasks done");
   };
 
   useEffect(() => {

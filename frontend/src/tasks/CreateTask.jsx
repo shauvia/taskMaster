@@ -46,7 +46,7 @@ export default function CreateTask() {
         </label>
         <label>
           Due date
-          <input type="datetime-local" name="dueDate" />
+          <input type="date" name="dueDate" />
         </label>
         <button>Add task</button>
       </form>
