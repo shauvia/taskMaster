@@ -38,33 +38,38 @@ router.post("/", requireBody(["name"]), async (req, res) => {
 });
 
 router.post("/:id/tasks", requireBody(["name"]), async (req, res) => {
-  let linkedMember;
-  const userId = req.user.id;
-  const projectId = req.params.id;
-  const { name, description, due_date, assignee_id, role } = req.body;
-  console.log("backend, apiProject Creating task with data:", {
-    name,
-    description,
-    due_date,
-    assignee_id,
-    role,
-  });
-  const task = await createProjectTask(
-    name,
-    description ?? null,
-    due_date ?? null,
-    userId,
-    assignee_id ?? null,
-  );
-  const linkedTask = await linkTaskToProject(projectId, task.id);
-  if (task.assignee_id) {
-    linkedMember = await linkMemberToProject(
-      projectId,
-      task.assignee_id,
-      role ?? "member",
+  try {
+    let linkedMember;
+    const userId = req.user.id;
+    const projectId = req.params.id;
+    const { name, description, due_date, assignee_id, role } = req.body;
+    console.log("backend, apiProject Creating task with data:", {
+      name,
+      description,
+      due_date,
+      assignee_id,
+      role,
+    });
+    const task = await createProjectTask(
+      name,
+      description ?? null,
+      due_date ?? null,
+      userId,
+      assignee_id ?? null,
     );
+    const linkedTask = await linkTaskToProject(projectId, task.id);
+    if (task.assignee_id) {
+      linkedMember = await linkMemberToProject(
+        projectId,
+        task.assignee_id,
+        role ?? "member",
+      );
+    }
+    res.status(201).json(task);
+  } catch (error) {
+    console.error("Error creating project task:", error);
+    res.status(400).json({ error: error.message });
   }
-  res.status(201).json(task);
 });
 
 router.put("/:id/tasks/:taskId", async (req, res) => {

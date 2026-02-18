@@ -79,3 +79,18 @@ export async function updateTaskCompletion(taskId, isCompleted) {
   const result = await response.json();
   return result;
 }
+
+export async function deleteTask(taskId) {
+  const response = await fetch(myApi + "/tasks/" + taskId, {
+    method: "DELETE",
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw Error(errorData.error);
+  }
+
+  const result = await response.json();
+  return result;
+}

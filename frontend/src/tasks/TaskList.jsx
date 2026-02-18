@@ -13,33 +13,33 @@ export default function TaskList({ tasks, syncTasks }) {
 
   return (
     <ul className="sidebar-tasklist">
-      <form action="">
-        {tasks.map((task) => (
-          <label key={task.id}>
-            <input
-              type="checkbox"
-              value={task.id}
-              checked={task.is_completed || false}
-              onChange={() => {
-                handleCheckboxChange(task.id, !task.is_completed);
-              }}
-            />
-            <TaskListItem key={task.id} task={task} syncTasks={syncTasks} />
-          </label>
-        ))}
-      </form>
+      {tasks.map((task) => (
+        <li key={task.id}>
+          <input
+            type="checkbox"
+            value={task.id}
+            checked={task.is_completed || false}
+            onChange={() => {
+              handleCheckboxChange(task.id, !task.is_completed);
+            }}
+          />
+          <Link to={`/tasks/${task.id}`}>
+            <h3>{task.name}</h3>
+          </Link>
+        </li>
+      ))}
     </ul>
   );
 }
 
-function TaskListItem({ task }) {
-  const listItem = (
-    <li>
-      <Link to={`/tasks/${task.id}`}>
-        <h3>{task.name}</h3>
-      </Link>
-    </li>
-  );
+// function TaskListItem({ task }) {
+//   const listItem = (
+//     <li>
+//       <Link to={`/tasks/${task.id}`}>
+//         <h3>{task.name}</h3>
+//       </Link>
+//     </li>
+//   );
 
-  return <>{listItem}</>;
-}
+//   return <>{listItem}</>;
+// }

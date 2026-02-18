@@ -54,15 +54,19 @@ export default function CreateProjectTask() {
       <form action={tryCreateTask}>
         <label>
           Task name
-          <input type="text" name="taskName" required />
+          <input type="text" name="taskName" placeholder="Task name" required />
         </label>
         <label>
           Description
-          <input type="text" name="description" />
+          <input
+            type="text"
+            name="description"
+            placeholder="Brief description"
+          />
         </label>
         <label>
           Due date
-          <input type="datetime-local" name="dueDate" />
+          <input type="date" name="dueDate" />
         </label>
         <label>
           Pick a collaborator

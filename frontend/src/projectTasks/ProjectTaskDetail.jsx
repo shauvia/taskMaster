@@ -63,8 +63,22 @@ export default function ProjectTaskDetails() {
     <div className="task-detail-view">
       <h3>{form.name}</h3>
       <p>{form.description}</p>
-      <p>{form.due_date}</p>
-      <p>User {form.assignee_id}</p>
+      <p>
+        {form.due_date
+          ? new Date(form.due_date).toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })
+          : "No due date"}
+      </p>
+      <p>
+        Assigned to:{" "}
+        {form.assignee_id
+          ? allUsers.find((user) => user.id === form.assignee_id)?.username ||
+            "Unknown user"
+          : "Unassigned"}
+      </p>
       <button
         onClick={() => {
           setEditing(true);

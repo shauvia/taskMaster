@@ -32,17 +32,7 @@ export default function App() {
             <Route path="/tasks/new" element={<CreateTask />} />
           </Route>
           <Route path="/projects" element={<ProjectPage />}>
-            {/* <Route path="/projects/:projectId" element={<ProjectDetails />} /> */}
             <Route path="/projects/new" element={<CreateProject />} />
-            {/* <Route path="/projects/tasks" element={<ProjectTaskPage />} />
-            <Route
-              path="/projects/:projectId/tasks/:taskId"
-              element={<ProjectTaskDetail />}
-            /> */}
-            {/* <Route
-              path="/projects/:projectId/tasks/new"
-              element={<CreateProjectTask />}
-            /> */}
             <Route path="/projects/:projectId" element={<ProjectDetails />}>
               <Route path="tasks/new" element={<CreateProjectTask />} />
               <Route path="tasks/:taskId" element={<ProjectTaskDetail />} />

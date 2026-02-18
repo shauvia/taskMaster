@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { getTask } from "../api/apiTasks.js";
 import { updateTask } from "../api/apiTasks.js";
-import { useParams, useOutletContext } from "react-router";
+import { useParams, useOutletContext, useNavigate } from "react-router";
+import { deleteTask } from "../api/apiTasks.js";
 
 export default function TaskDetails() {
   const [error, setError] = useState(null);
@@ -9,6 +10,8 @@ export default function TaskDetails() {
   const [form, setForm] = useState({});
   const { syncTasks } = useOutletContext();
   const { taskId } = useParams();
+  const navigate = useNavigate();
+
   let task;
   const syncTask = async () => {
     task = await getTask(taskId);
@@ -17,6 +20,17 @@ export default function TaskDetails() {
       description: task.description,
       due_date: task.due_date?.slice(0, 10),
     });
+  };
+
+  const handleDelete = async () => {
+    setError(null);
+    try {
+      await deleteTask(taskId);
+      await syncTasks();
+      navigate("/account");
+    } catch (e) {
+      setError(e.message);
+    }
   };
 
   useEffect(() => {
@@ -50,7 +64,15 @@ export default function TaskDetails() {
     <div className="task-detail-view">
       <h3>{form.name}</h3>
       <p>{form.description}</p>
-      <p>{form.due_date}</p>
+      <p>
+        {form.due_date
+          ? new Date(form.due_date).toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })
+          : "No due date"}
+      </p>
       <button
         onClick={() => {
           setEditing(true);
@@ -58,15 +80,23 @@ export default function TaskDetails() {
       >
         Edit
       </button>
+      <button onClick={handleDelete}>Delete</button>
     </div>
   );
 
   const editForm = (
     <form onSubmit={tryTaskEdit}>
-      <input value={form.name} name="name" onChange={handleChange} />
+      <input
+        value={form.name}
+        name="name"
+        placeholder="Task name"
+        onChange={handleChange}
+        required
+      />
 
       <input
         value={form.description}
+        placeholder="Brief description"
         name="description"
         onChange={handleChange}
       />

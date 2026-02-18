@@ -115,7 +115,8 @@ export async function getAllProjectsByOwnerId(ownerId) {
 export async function getAllTasksByProjectId(projectId) {
   const sql = `SELECT tasks.* FROM tasks 
   JOIN project_tasks ON project_tasks.task_id = tasks.id
-  WHERE project_tasks.project_id = $1`;
+  WHERE project_tasks.project_id = $1 
+  ORDER BY tasks.id`;
   const { rows: tasks } = await db.query(sql, [projectId]);
 
   return tasks;

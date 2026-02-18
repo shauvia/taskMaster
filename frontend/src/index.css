@@ -325,12 +325,6 @@ button.nav-link.logout-link {
   max-height: calc(100vh - 220px);
 }
 
-.sidebar-tasklist li {
-  padding: 0.75rem;
-  border: 1px solid #cddede;
-  background: #fff;
-}
-
 /* task details */
 .tasks-detail {
   flex: 1;
@@ -463,11 +457,35 @@ p {
   transition: color 200ms ease;
 }
 
-.sidebar-tasklist label {
+button[type="submit"]:hover {
+  background: #5a9090;
+}
+
+/* Delete/Cancel buttons */
+button.delete,
+button:last-of-type {
+  background: #f9fff9;
+  color: #d64545;
+  border-color: #d64545;
+}
+
+button.delete:hover {
+  background: #d64545;
+  color: white;
+}
+
+.sidebar-tasklist li {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  cursor: pointer;
+  padding: 0.75rem;
+  border: 1px solid #cddede;
+  background: #fff;
+  transition: background 200ms ease;
+}
+
+.sidebar-tasklist li:hover {
+  background: #f0f8f8;
 }
 
 .sidebar-tasklist input[type="checkbox"] {
@@ -475,17 +493,33 @@ p {
   height: 18px;
   cursor: pointer;
   accent-color: #6ea7a7;
+  flex-shrink: 0;
 }
 
 .sidebar-tasklist input[type="checkbox"]:hover {
   accent-color: #5a9090;
 }
 
-.sidebar-tasklist input[type="checkbox"]:checked + li {
-  opacity: 0.6;
+.sidebar-tasklist li a {
+  flex: 1;
+  text-decoration: none;
+  color: inherit;
 }
 
-.sidebar-tasklist input[type="checkbox"]:checked + li h3 {
+.sidebar-tasklist li a h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: #093838;
+  transition: color 200ms ease;
+}
+
+.sidebar-tasklist li a:hover h3 {
+  color: #6ea7a7;
+}
+
+/* Completed task styling */
+.sidebar-tasklist input[type="checkbox"]:checked + a h3 {
   text-decoration: line-through;
   color: #7a8a8a;
+  opacity: 0.6;
 }

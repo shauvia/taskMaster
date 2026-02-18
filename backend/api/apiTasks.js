@@ -10,6 +10,7 @@ import {
   updateTask,
   getTaskByTaskId,
   updateTaskIsCompleted,
+  deleteTask,
 } from "../db/queries/qTasks.js";
 import requireUser from "#middleware/requireUser";
 
@@ -68,11 +69,14 @@ router.get("/:id", async (req, res) => {
 router.put("/:id/complete", requireBody(["is_completed"]), async (req, res) => {
   const { is_completed } = req.body;
   const taskId = req.params.id;
-  const userId = req.user.id;
-  const completedTask = await updateTaskIsCompleted(
-    is_completed,
-    taskId,
-    userId,
-  );
+  // const userId = req.user.id;
+  const completedTask = await updateTaskIsCompleted(is_completed, taskId);
   res.json(completedTask);
+});
+
+router.delete("/:id", async (req, res) => {
+  const taskId = req.params.id;
+  const userId = req.user.id;
+  const deletedTask = await deleteTask(taskId, userId);
+  res.json(deletedTask);
 });
