@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { getTask } from "../api/apiTasks.js";
-import { useParams, useOutletContext } from "react-router";
+import { useParams, useOutletContext, useNavigate } from "react-router";
 import { updateProjectTask } from "../api/apiProjects.js";
 import { getAllUsers } from "../api/apiUsers.js";
+import { deleteTask } from "../api/apiTasks.js";
 
 export default function ProjectTaskDetails() {
   const [error, setError] = useState(null);
@@ -11,6 +12,7 @@ export default function ProjectTaskDetails() {
   const { syncProjectTasks } = useOutletContext();
   const [allUsers, setAllUsers] = useState([]);
   const { projectId, taskId } = useParams();
+  const navigate = useNavigate();
 
   let task;
   const syncThisTask = async () => {
@@ -35,6 +37,17 @@ export default function ProjectTaskDetails() {
   useEffect(() => {
     syncThisTask();
   }, [taskId]);
+
+  const handleDelete = async () => {
+    setError(null);
+    try {
+      await deleteTask(taskId);
+      await syncProjectTasks();
+      navigate(`/projects/${projectId}`);
+    } catch (e) {
+      setError(e.message);
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -86,6 +99,7 @@ export default function ProjectTaskDetails() {
       >
         Edit
       </button>
+      <button onClick={handleDelete}>Delete</button>
     </div>
   );
 
@@ -127,8 +141,13 @@ export default function ProjectTaskDetails() {
       >
         Cancel
       </button>
-      {error && <p role="alert">{error}</p>}
+      {/* {error && <p role="alert">{error}</p>} */}
     </form>
   );
-  return <>{editing ? editForm : listItem}</>;
+  return (
+    <>
+      {editing ? editForm : listItem}
+      {error && <p role="alert">{error}</p>}
+    </>
+  );
 }

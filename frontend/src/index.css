@@ -474,6 +474,8 @@ button.delete:hover {
   color: white;
 }
 
+/* version 1! */
+
 .sidebar-tasklist li {
   display: flex;
   align-items: center;
@@ -487,6 +489,98 @@ button.delete:hover {
 .sidebar-tasklist li:hover {
   background: #f0f8f8;
 }
+
+/* version2 */
+
+/* .sidebar-tasklist li {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.25rem;
+  border: none;
+  border-left: 4px solid #6ea7a7;
+  background: linear-gradient(135deg, #ffffff 0%, #f6fbfb 100%);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition:
+    transform 200ms ease,
+    box-shadow 200ms ease;
+}
+
+.sidebar-tasklist li:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.sidebar-tasklist li a h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #2b4f4f;
+  letter-spacing: 0.5px;
+} */
+
+/* version3  */
+
+/* .sidebar-tasklist li {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 0;
+  border: none;
+  border-bottom: 2px solid #edf4f4;
+  background: transparent;
+  transition: padding-left 200ms ease;
+}
+
+.sidebar-tasklist li:hover {
+  padding-left: 1rem;
+  background: #f9fdfd;
+}
+
+.sidebar-tasklist li a h3 {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #2b4f4f;
+  text-transform: lowercase; 
+ } */
+
+/* Version4 */
+
+/* .sidebar-tasklist li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  border: 3px solid #6ea7a7;
+  background: #fff;
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.sidebar-tasklist li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 6px;
+  background: linear-gradient(180deg, #6ea7a7, #8ac9c9);
+  transform: scaleY(0);
+  transition: transform 300ms ease;
+}
+
+.sidebar-tasklist li:hover::before {
+  transform: scaleY(1);
+}
+
+.sidebar-tasklist li a h3 {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #093838;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+} */
 
 .sidebar-tasklist input[type="checkbox"] {
   width: 18px;

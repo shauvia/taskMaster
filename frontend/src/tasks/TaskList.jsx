@@ -31,15 +31,3 @@ export default function TaskList({ tasks, syncTasks }) {
     </ul>
   );
 }
-
-// function TaskListItem({ task }) {
-//   const listItem = (
-//     <li>
-//       <Link to={`/tasks/${task.id}`}>
-//         <h3>{task.name}</h3>
-//       </Link>
-//     </li>
-//   );
-
-//   return <>{listItem}</>;
-// }
