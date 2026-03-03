@@ -15,6 +15,7 @@ import ProjectDetails from "./projects/ProjectDetails.jsx";
 import ProjectTaskPage from "./projectTasks/ProjectTaskPage.jsx";
 import ProjectTaskDetail from "./projectTasks/ProjectTaskDetail.jsx";
 import CreateProjectTask from "./projectTasks/CreateProjectTask.jsx";
+import ParticipantTaskDetail from "./participantTasks/ParticipantTaskDetails.jsx";
 
 export default function App() {
   return (
@@ -34,8 +35,14 @@ export default function App() {
           <Route path="/projects" element={<ProjectPage />}>
             <Route path="/projects/new" element={<CreateProject />} />
             <Route path="/projects/:projectId" element={<ProjectDetails />}>
-              <Route path="tasks/new" element={<CreateProjectTask />} />
+              {/* <Route path="tasks" element={<ProjectTaskPage />}> */}
               <Route path="tasks/:taskId" element={<ProjectTaskDetail />} />
+              <Route path="tasks/new" element={<CreateProjectTask />} />
+              {/* </Route> */}
+              <Route
+                path="participant/tasks/:taskId"
+                element={<ParticipantTaskDetail />}
+              />
             </Route>
           </Route>
         </Route>

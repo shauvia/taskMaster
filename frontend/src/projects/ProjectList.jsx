@@ -1,14 +1,10 @@
 import { Link, Outlet } from "react-router";
 
-export default function ProjectList({ projects, syncProjects }) {
+export default function ProjectList({ projects }) {
   return (
     <ul className="sidebar-tasklist">
       {projects.map((project) => (
-        <ProjectListItem
-          key={project.id}
-          project={project}
-          syncProjects={syncProjects}
-        />
+        <ProjectListItem key={project.id} project={project} />
       ))}
     </ul>
   );

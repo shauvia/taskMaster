@@ -110,3 +110,33 @@ export async function getProject(projectId) {
     throw error;
   }
 }
+
+export async function getProjectsByMemberId(memberId) {
+  try {
+    const response = await fetch(myApi + "/projects/members/" + memberId, {
+      credentials: "include",
+    });
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error("Error fetching projects by member:", error);
+    throw error;
+  }
+}
+
+export async function getAllProjectTasksByMemberIdAndProjectId(
+  projectId,
+  memberId,
+) {
+  try {
+    const response = await fetch(
+      myApi + "/projects/" + projectId + "/members/" + memberId,
+      { credentials: "include" },
+    );
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error("Error fetching project tasks by member:", error);
+    throw error;
+  }
+}

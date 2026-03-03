@@ -41,7 +41,9 @@ export default function CreateProjectTask() {
       console.log("createdProjectTask:", createdProjectTask);
 
       await createProjectTask(createdProjectTask, projectId);
-      await syncProjectTasks();
+      if (typeof syncProjectTasks === "function") {
+        await syncProjectTasks();
+      }
       navigate(`/projects/${projectId}`);
     } catch (error) {
       setError(error.message);

@@ -1,17 +1,19 @@
 import { useEffect, useState } from "react";
 import { ProjTaskList } from "./ProjectTasklist.jsx";
-import { Outlet, useNavigate, Link } from "react-router";
+import { Link } from "react-router";
 import { getAllProjectTasks } from "../api/apiProjects.js";
 
-export default function ProjectTaskPage({ projectId }) {
+export default function ProjectTaskPage({ projectId, onSyncTasks }) {
   const [projectTasks, setProjectTasks] = useState([]);
+
   const syncProjectTasks = async () => {
     const allProjTasks = await getAllProjectTasks(projectId);
-    setProjectTasks([...allProjTasks]);
+    setProjectTasks(allProjTasks);
   };
 
   useEffect(() => {
     syncProjectTasks();
+    onSyncTasks?.(syncProjectTasks);
   }, [projectId]);
 
   return (
@@ -34,9 +36,6 @@ export default function ProjectTaskPage({ projectId }) {
           />
         )}
       </aside>
-      <section className="tasks-detail">
-        <Outlet context={{ syncProjectTasks }} />
-      </section>
     </div>
   );
 }

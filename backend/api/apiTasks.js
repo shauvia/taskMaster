@@ -11,10 +11,23 @@ import {
   getTaskByTaskId,
   updateTaskIsCompleted,
   deleteTask,
+  getTaskByIdAndMemberId,
 } from "../db/queries/qTasks.js";
 import requireUser from "#middleware/requireUser";
 
 router.use(requireUser);
+
+router.get("/:taskId/members/:memberId", async (req, res) => {
+  const { taskId, memberId } = req.params;
+  const task = await getTaskByIdAndMemberId(taskId, memberId);
+  if (!task) res.status(404).json({ error: "Task not found" });
+  res.json(task);
+});
+
+router.get("/:id", async (req, res) => {
+  const task = req.task;
+  res.json(task);
+});
 
 router.param("id", async (req, res, next, id) => {
   const task = await getTaskByTaskId(id);
@@ -61,18 +74,17 @@ router.put("/:id", requireBody(["name"]), async (req, res) => {
   res.json(updatedTask);
 });
 
-router.get("/:id", async (req, res) => {
-  const task = req.task;
-  res.json(task);
-});
-
-router.put("/:id/complete", requireBody(["is_completed"]), async (req, res) => {
-  const { is_completed } = req.body;
-  const taskId = req.params.id;
-  // const userId = req.user.id;
-  const completedTask = await updateTaskIsCompleted(is_completed, taskId);
-  res.json(completedTask);
-});
+router.put(
+  "/:taskId/complete",
+  requireBody(["is_completed"]),
+  async (req, res) => {
+    const { is_completed } = req.body;
+    const taskId = req.params.taskId;
+    // const userId = req.user.id;
+    const completedTask = await updateTaskIsCompleted(is_completed, taskId);
+    res.json(completedTask);
+  },
+);
 
 router.delete("/:id", async (req, res) => {
   const taskId = req.params.id;

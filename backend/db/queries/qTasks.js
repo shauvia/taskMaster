@@ -51,6 +51,14 @@ export async function getTaskByTaskId(taskId) {
   return task;
 }
 
+export async function getTaskByIdAndMemberId(taskId, memberId) {
+  const sql = `SELECT tasks.* FROM tasks WHERE id = $1 AND assignee_id = $2`;
+  const {
+    rows: [task],
+  } = await db.query(sql, [taskId, memberId]);
+  return task;
+}
+
 // For later
 
 // Get all tasks for projects where user is a member

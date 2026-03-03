@@ -141,7 +141,7 @@ export async function getOneProjectById(projectId) {
   return project;
 }
 
-export async function getAllProjectByMemberId(memberId) {
+export async function getAllProjectsByMemberId(memberId) {
   const sql = `SELECT projects.* FROM projects 
   JOIN project_members ON project_members.project_id = projects.id 
   WHERE project_members.member_id = $1`;
@@ -158,7 +158,7 @@ export async function getAllProjectTasksByMemberIdAndProjectId(
   const sql = `SELECT tasks.* FROM tasks
   JOIN project_tasks ON project_tasks.task_id = tasks.id
   JOIN project_members ON project_members.project_id = project_tasks.project_id
-  WHERE project_members.member_id = $1 AND project_members.project_id = $2 AND tasks.assignee_id = $1`;
+  WHERE project_members.member_id = $1 AND project_members.project_id = $2 AND tasks.assignee_id = $1 ORDER BY id`;
   const { rows: tasks } = await db.query(sql, [memberId, projectId]);
 
   return tasks;

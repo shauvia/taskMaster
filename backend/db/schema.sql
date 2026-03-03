@@ -47,3 +47,71 @@ CREATE TABLE project_members (
 
 
 
+┌─────────────────────────────────────────────────────────────────────────┐
+│                           DATABASE SCHEMA                                │
+└─────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────┐
+│       USERS          │
+├──────────────────────┤
+│ id (PK)              │
+│ username (UNIQUE)    │
+│ password             │
+│ is_deleted           │
+└──────────────────────┘
+         │
+         │ owner_id (FK)
+         ├─────────────────────────────────┐
+         │                                  │
+         ▼                                  ▼
+┌──────────────────────┐          ┌──────────────────────┐
+│       TASKS          │          │      PROJECTS        │
+├──────────────────────┤          ├──────────────────────┤
+│ id (PK)              │          │ id (PK)              │
+│ name                 │          │ name                 │
+│ description          │          │ description          │
+│ start_date           │          │ owner_id (FK) ───────┼──► users.id
+│ due_date             │          │ created_at           │
+│ status               │          └──────────────────────┘
+│ is_completed         │                   │
+│ owner_id (FK) ───────┼──► users.id       │
+│ assignee_id (FK) ────┼──► users.id       │
+└──────────────────────┘                   │
+         │                                  │
+         │                                  │
+         └──────────┬───────────────────────┘
+                    │
+                    ▼
+         ┌──────────────────────┐
+         │   PROJECT_TASKS      │
+         ├──────────────────────┤
+         │ id (PK)              │
+         │ project_id (FK) ─────┼──► projects.id
+         │ task_id (FK) ────────┼──► tasks.id
+         │ UNIQUE(project, task)│
+         └──────────────────────┘
+
+
+         ┌──────────────────────┐
+         │  PROJECT_MEMBERS     │
+         ├──────────────────────┤
+         │ id (PK)              │
+         │ project_id (FK) ─────┼──► projects.id
+         │ member_id (FK) ──────┼──► users.id
+         │ role                 │
+         │ UNIQUE(project,member)│
+         └──────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│  RELATIONSHIPS:                                                          │
+│  • Users create Tasks (owner_id) and Projects (owner_id)                │
+│  • Users can be assigned to Tasks (assignee_id)                         │
+│  • Tasks link to Projects via PROJECT_TASKS (many-to-many)              │
+│  • Users join Projects via PROJECT_MEMBERS (many-to-many with role)     │
+│                                                                          │
+│  CASCADE RULES:                                                          │
+│  • Delete User → Delete their Tasks & Projects                          │
+│  • Delete Project → Delete PROJECT_TASKS & PROJECT_MEMBERS entries      │
+│  • Delete Task → Delete PROJECT_TASKS entries                           │
+│  • Delete User (assignee) → Set task.assignee_id to NULL               │
+└─────────────────────────────────────────────────────────────────────────┘

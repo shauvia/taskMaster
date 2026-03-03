@@ -16,6 +16,8 @@ import {
   updateProjectTask,
   getProjectMemberByMemberAndProjectId,
   updateLinkMemberToProject,
+  getAllProjectsByMemberId,
+  getAllProjectTasksByMemberIdAndProjectId,
 } from "../db/queries/qProjects.js";
 // import { createTask } from "../db/queries/qTasks.js";
 
@@ -59,11 +61,19 @@ router.post("/:id/tasks", requireBody(["name"]), async (req, res) => {
     );
     const linkedTask = await linkTaskToProject(projectId, task.id);
     if (task.assignee_id) {
-      linkedMember = await linkMemberToProject(
-        projectId,
+      let projectMember = await getProjectMemberByMemberAndProjectId(
         task.assignee_id,
-        role ?? "member",
+        projectId,
       );
+      console.log("createProjectTask, projectMember", projectMember);
+      if (!projectMember) {
+        linkedMember = await linkMemberToProject(
+          projectId,
+          task.assignee_id,
+          role ?? "member",
+        );
+        console.log("createProjectTask, linkedMember", linkedMember);
+      }
     }
     res.status(201).json(task);
   } catch (error) {
@@ -111,4 +121,23 @@ router.get("/:id", async (req, res) => {
   const projectId = req.params.id;
   const project = await getOneProjectById(projectId);
   res.json(project);
+});
+
+router.get("/members/:memberId", async (req, res) => {
+  // logged in user gets projects where he's a member
+  const memberId = req.params.memberId;
+  console.log("apiProjects, memberId", memberId);
+  const projects = await getAllProjectsByMemberId(memberId);
+  res.json(projects);
+});
+
+router.get("/:id/members/:memberId", async (req, res) => {
+  // logged in user gets projects where he's a member
+  const userId = req.user.id;
+  const projectId = req.params.id;
+  const tasks = await getAllProjectTasksByMemberIdAndProjectId(
+    userId,
+    projectId,
+  );
+  res.json(tasks);
 });

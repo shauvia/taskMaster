@@ -80,6 +80,23 @@ export async function updateTaskCompletion(taskId, isCompleted) {
   return result;
 }
 
+export async function getTaskByIdAndMemberId(taskId, memberId) {
+  try {
+    const response = await fetch(
+      myApi + "/tasks/" + taskId + "/members/" + memberId,
+      {
+        credentials: "include",
+      },
+    );
+    const result = await response.json();
+    console.log("getTaskByIdAndMemberId result", result);
+    return result;
+  } catch (e) {
+    console.error(e);
+    return [];
+  }
+}
+
 export async function deleteTask(taskId) {
   const response = await fetch(myApi + "/tasks/" + taskId, {
     method: "DELETE",
