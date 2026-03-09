@@ -1,6 +1,8 @@
 import { NavLink, useNavigate } from "react-router";
+import { useEffect } from "react";
 import { useAuth } from "../auth/AuthContext";
 import logo from "../logo/logo.png";
+import { Profile } from "../homepage/Profile.jsx";
 
 export default function Navbar() {
   const { logout, loading, isAuthenticated } = useAuth();
@@ -11,18 +13,11 @@ export default function Navbar() {
     navigate("/");
   };
 
-  // if (loading) {
-  //   return (
-  //     <header>
-  //       <NavLink to="/" className="brand">
-  //         <img id="logo" alt="taskmaster logo" src={logo}></img>
-  //       </NavLink>
-  //       <nav>
-  //         <p>Loading...</p>
-  //       </nav>
-  //     </header>
-  //   );
-  // }
+  useEffect(() => {
+    if (!loading && !isAuthenticated) {
+      navigate("/", { replace: true });
+    }
+  }, [loading, isAuthenticated]);
 
   return (
     <header className="site-header">
@@ -47,6 +42,7 @@ export default function Navbar() {
             <button onClick={handleLogOut} className="nav-link logout-link">
               Log out
             </button>
+            <Profile />
           </>
         ) : null}
       </nav>

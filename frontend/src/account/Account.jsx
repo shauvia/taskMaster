@@ -7,7 +7,7 @@ import ProjectPage from "../projects/ProjectPage.jsx";
 export default function Account() {
   const { isAuthenticated, user } = useAuth();
   const [error, setError] = useState(null);
-  console.log("user in Account.jsx", user.id, user.username);
+  console.log("user in Account.jsx", user);
 
   return (
     <div className="account-grid">

@@ -18,12 +18,16 @@ export default async function getUserFromToken(req, res, next) {
     const { id } = verifyToken(token);
     console.log("getUserFromToken, id", id);
     const user = await getUserById(id);
-    if (!user) return res.status(401).json({ error: "User no longer exists." });
+    if (!user) {
+      res.clearCookie("token");
+      return next();
+    }
     console.log("getUserFromToken, user", user);
     req.user = user;
     next();
   } catch (e) {
     console.error(e);
-    res.status(401).json({ error: "Invalid token." });
+    res.clearCookie("token");
+    next();
   }
 }

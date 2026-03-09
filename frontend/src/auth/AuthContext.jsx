@@ -84,10 +84,25 @@ export function AuthProvider({ children }) {
     setUser(null);
   };
 
+  async function deleteAccount(userId) {
+    const response = await fetch(myApi + "/users/" + userId, {
+      method: "DELETE",
+      credentials: "include",
+    });
+    if (!response.ok) {
+      throw new Error("Delete failed");
+    }
+    const result = await response.json();
+    console.log("deleteAccount, result", result);
+    setUser(null);
+    return result;
+  }
+
   const value = {
     register,
     login,
     logout,
+    deleteAccount,
     user,
     loading,
     isAuthenticated: !!user,

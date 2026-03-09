@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import ProjectTaskPage from "../projectTasks/ProjectTaskPage.jsx";
 import ParticipantTaskPage from "../participantTasks/ParticipantTaskPage.jsx";
-import { Outlet, useParams } from "react-router";
+import { Navigate, Outlet, useParams } from "react-router";
 import { getProject } from "../api/apiProjects.js";
 import { useAuth } from "../auth/AuthContext.jsx";
 
 export default function ProjectDetails() {
   const { projectId } = useParams();
   const [project, setProject] = useState(null);
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const [syncProjectTasks, setSyncProjectTasks] = useState(() => null);
 
   useEffect(() => {
@@ -19,8 +19,12 @@ export default function ProjectDetails() {
     fetchProject();
   }, [projectId]);
 
-  if (!project) {
+  if (loading || !project) {
     return <p>Loading project...</p>;
+  }
+
+  if (!user) {
+    return <Navigate to="/login" replace />;
   }
 
   return (

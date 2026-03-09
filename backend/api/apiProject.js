@@ -132,7 +132,7 @@ router.get("/members/:memberId", async (req, res) => {
 });
 
 router.get("/:id/members/:memberId", async (req, res) => {
-  // logged in user gets projects where he's a member
+  // logged in user gets tasks where he's a member
   const userId = req.user.id;
   const projectId = req.params.id;
   const tasks = await getAllProjectTasksByMemberIdAndProjectId(

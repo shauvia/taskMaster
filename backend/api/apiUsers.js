@@ -8,7 +8,7 @@ import {
   createUser,
   getUserByUsernameAndPassword,
   checkIsUsername,
-  deleteUser,
+  softDeleteUser,
   getAllUsers,
 } from "../db/queries/qUsers.js";
 
@@ -48,7 +48,9 @@ router.post(
   "/login",
   requireBody(["username", "password"]),
   async (req, res) => {
+    console.log("Login route, backend: I'm in");
     const { username, password } = req.body;
+
     const user = await getUserByUsernameAndPassword(username, password);
     if (!user)
       return res.status(401).json({ error: "Invalid username or password." });
@@ -88,9 +90,19 @@ router.get("/", async (req, res) => {
   res.json(users);
 });
 
-router.delete("/delete", async (req, res) => {
-  const userId = req.user.id;
-  const user = await deleteUser(userId);
+router.delete("/:id", async (req, res) => {
+  const userId = req.params.id;
+  const user = await softDeleteUser(userId);
   console.log("I need a username. What is inside user", user);
-  return res.status(201).json({ success: `Account has been deleted.` });
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax",
+    maxAge: 0,
+    path: "/",
+  });
+  return res.status(201).json({
+    success: true,
+    message: `Account ${user.username} has been deleted.`,
+  });
 });
