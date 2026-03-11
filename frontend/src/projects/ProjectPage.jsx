@@ -10,6 +10,7 @@ export default function ProjectPage() {
   const [projectsByMember, setProjectsByMember] = useState([]);
   const navigate = useNavigate();
   const { user } = useAuth();
+  const [error, setError] = useState(null);
 
   const syncProjects = async () => {
     const allProjects = await getProjects();

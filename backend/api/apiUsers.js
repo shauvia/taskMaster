@@ -53,7 +53,9 @@ router.post(
 
     const user = await getUserByUsernameAndPassword(username, password);
     if (!user)
-      return res.status(401).json({ error: "Invalid username or password." });
+      return res.status(401).json({
+        error: "Invalid username or password or account no longer exists.",
+      });
     const token = createToken({ id: user.id });
 
     // only backend
