@@ -422,6 +422,7 @@ p {
 
 .task-detail-view button {
   margin-top: 0.75rem;
+  margin-right: 0.5rem;
   padding: 0.5rem 1rem;
   border: 1px solid #6ea7a7;
   background: #f9fff9;
@@ -462,17 +463,6 @@ button[type="submit"]:hover {
 }
 
 /* Delete/Cancel buttons */
-button.delete,
-button:last-of-type {
-  background: #f9fff9;
-  color: #d64545;
-  border-color: #d64545;
-}
-
-button.delete:hover {
-  background: #d64545;
-  color: white;
-}
 
 /* version 1! */
 
@@ -708,17 +698,213 @@ button.delete:hover {
 
 .modal-buttons {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   gap: 1rem;
   margin-top: 1.5rem;
 }
 
-/* button.danger {
-  background: #c0392b;
-  color: white;
-} */
-
 button.confirm-button {
-  background: #27ae60;
+  background: rgb(110, 167, 167);
   color: white;
+  padding: 0.5rem 1rem 0.5rem 1rem;
+  border: 1px solid rgb(110, 167, 167);
+  border-radius: 3px;
+}
+
+button.confirm-button:hover {
+  background: rgb(90, 140, 140);
+  border-color: rgb(90, 140, 140);
+}
+
+button.cancel-button {
+  background: white;
+  color: rgb(110, 167, 167);
+  padding: 0.5rem 1rem 0.5rem 1rem;
+  border: 1px solid rgb(110, 167, 167);
+  border-radius: 3px;
+}
+
+button.cancel-button:hover {
+  background: rgb(230, 245, 245);
+  border-color: rgb(110, 167, 167);
+}
+
+button.projDeleteBtn {
+  background: #f9fff9;
+  color: #d64545;
+  border: 1px solid rgb(110, 167, 167);
+  padding: 0.5rem 1rem;
+  border-radius: 3px;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+
+button.projDeleteBtn:hover {
+  background: rgb(110, 167, 167);
+  color: white;
+  border-color: rgb(110, 167, 167);
+}
+
+button.delete {
+  background: #f9fff9;
+  color: #d64545;
+  border-color: #d64545;
+}
+
+button.delete:hover {
+  background: #d64545;
+  color: white;
+}
+
+/* ── Calendar Page ─────────────────────────────────────────── */
+
+/* Outer wrapper — gives the calendar breathing room and a fixed height.
+   Without a fixed height, react-big-calendar collapses to 0px and disappears. */
+.calendar-container {
+  padding: 2rem;
+  height: 85vh;
+}
+
+.calendar-container h2 {
+  margin-bottom: 1rem;
+  color: rgb(79, 144, 144);
+}
+
+/* The calendar itself fills all remaining space inside the container */
+.calendar-container .rbc-calendar {
+  height: 100%;
+}
+
+/* Header row (Mon, Tue, Wed...) — match your teal theme */
+.calendar-container .rbc-header {
+  background-color: rgb(110, 167, 167);
+  color: white;
+  padding: 0.5rem;
+}
+
+/* Today's date cell gets a subtle teal highlight instead of the default yellow */
+.calendar-container .rbc-today {
+  background-color: rgb(220, 240, 240);
+}
+
+/* Individual event blocks — your teal as the background */
+.calendar-container .rbc-event {
+  background-color: rgb(90, 140, 140);
+  border: none;
+  border-radius: 4px;
+}
+
+/* Event text — keep it readable */
+.calendar-container .rbc-event-content {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+/* Toolbar (prev/next buttons + month label) */
+.calendar-container .rbc-toolbar button {
+  color: rgb(79, 144, 144);
+  border: 1px solid rgb(110, 167, 167);
+  font-family: "Montserrat", sans-serif;
+  text-transform: uppercase;
+}
+
+.calendar-container .rbc-toolbar button:hover,
+.calendar-container .rbc-toolbar button.rbc-active {
+  background-color: rgb(110, 167, 167);
+  color: white;
+}
+
+.task-detail-panel {
+  margin-top: 1.5rem; /* space between calendar and panel */
+  padding: 1.25rem 1.5rem; /* inner breathing room: top/bottom left/right */
+  border: 1px solid rgb(110, 167, 167); /* thin teal border */
+  border-radius: 8px; /* rounded corners */
+  background-color: rgb(240, 250, 250); /* very light teal tint */
+  max-width: 480px; /* stops it stretching full width */
+}
+
+.task-detail-panel h3 {
+  margin: 0 0 0.5rem; /* no top margin, small bottom margin */
+  color: rgb(79, 144, 144); /* your existing teal heading color */
+  font-family: "Montserrat", sans-serif;
+  font-size: 1rem;
+}
+
+.task-detail-panel p {
+  margin: 0.25rem 0; /* small vertical gap between each line */
+  font-size: 0.9rem; /* slightly smaller than body */
+  color: #333; /* dark gray, not pure black */
+}
+
+.task-detail-panel button {
+  margin-top: 1rem;
+  padding: 0.4rem 1rem;
+  background-color: rgb(90, 140, 140);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.8rem;
+}
+
+.task-detail-panel button:hover {
+  background-color: rgb(70, 120, 120); /* slightly darker on hover */
+}
+
+.calendar-layout {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.calendar-main {
+  flex: 3;
+}
+
+.calendar-sidebar {
+  flex: 0 0 220px;        /* fixed width, won't grow or shrink */
+  overflow-y: auto;
+  max-height: 600px;
+  padding: 0 0.5rem;
+}
+
+.calendar-sidebar h3 {
+  color: rgb(79, 144, 144);
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 1.5rem 0 0.5rem; /* large top margin separates the two sections */
+  border-bottom: 1px solid rgb(110, 167, 167);
+  padding-bottom: 0.25rem;
+}
+
+.calendar-sidebar h3:first-child {
+  margin-top: 0; /* no top margin on the very first heading */
+}
+
+.sidebar-task-item {
+  padding: 0.4rem 0.6rem;
+  margin-bottom: 0.4rem;
+  border-radius: 4px;
+  background-color: rgb(240, 250, 250);
+  border-left: 3px solid rgb(90, 140, 140);
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.sidebar-task-item:hover {
+  background-color: rgb(220, 240, 240);
+}
+
+.sidebar-task-item p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #333;
+}
+
+.sidebar-task-item .task-date {
+  font-size: 0.72rem;
+  color: rgb(100, 150, 150);
+  margin-top: 0.15rem;
 }

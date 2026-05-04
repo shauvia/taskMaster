@@ -1,12 +1,24 @@
 import { useAuth } from "./AuthContext";
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate, useSearchParams } from "react-router";
 import logo from "../logo/logo.png";
 
 export default function Login() {
   const { login, isAuthenticated, loading } = useAuth();
   const [error, setError] = useState(null);
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+
+  const verified = searchParams.get("verified");
+  const registered = searchParams.get("registered");
+  const statusMessage =
+    verified === "1"
+      ? "Email verified successfully. You can log in."
+      : verified === "0"
+        ? "Verification link is invalid or expired."
+        : registered === "1"
+          ? "Account created. Check your email to verify before login."
+          : null;
 
   useEffect(() => {
     if (!loading && isAuthenticated) {
@@ -34,6 +46,11 @@ export default function Login() {
         <img id="hpLogo" alt="taskmaster logo" src={logo}></img>
       </Link>
       <form id="loginForm" action={tryLogin}>
+        {statusMessage && (
+          <p role="status" aria-live="polite">
+            {statusMessage}
+          </p>
+        )}
         <label htmlFor="username">Username</label>
         <input id="username" type="text" name="username" required />
 

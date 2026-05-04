@@ -1,17 +1,31 @@
 import db from "../client.js";
 import bcrypt from "bcrypt";
 
-export async function createUser(username, password) {
+export async function createUser(
+  username,
+  password,
+  email,
+  verificationToken = null,
+) {
   const sql = `
         INSERT INTO users 
-        (username, password) 
-        VALUES ($1, $2) 
+        (username, password, email, verification_token) 
+        VALUES ($1, $2, $3, $4) 
         RETURNING *
     `;
   const hashedPassword = await bcrypt.hash(password, 14);
   const {
     rows: [user],
-  } = await db.query(sql, [username, hashedPassword]);
+  } = await db.query(sql, [username, hashedPassword, email, verificationToken]);
+  return user;
+}
+
+export async function verifyUserByToken(token) {
+  const sql = `UPDATE users SET email_verified = true 
+  WHERE verification_token = $1 RETURNING *`;
+  const {
+    rows: [user],
+  } = await db.query(sql, [token]);
   return user;
 }
 

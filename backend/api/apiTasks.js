@@ -12,10 +12,29 @@ import {
   updateTaskIsCompleted,
   deleteTask,
   getTaskByIdAndMemberId,
+  getTasksByAssigneeId,
 } from "../db/queries/qTasks.js";
 import requireUser from "#middleware/requireUser";
 
 router.use(requireUser);
+router.get("/assigned", async (req, res) => {
+  const userId = req.user.id;
+  const tasks = await getTasksByAssigneeId(userId);
+  res.json(tasks);
+});
+
+// different way of getting tasks - by role (owner or assignee) - can be used in the future if needed
+// GET /api/tasks?role=assignee  ← own tasks
+// GET /api/tasks                ← own tasks (default)
+// router.get("/", async (req, res) => {
+//   const userId = req.user.id;
+//   if (req.query.role === "assignee") {
+//     const tasks = await getTasksByAssigneeId(userId);
+//     return res.json(tasks);
+//   }
+//   const tasks = await getAllTasksByUserId(userId);
+//   res.json(tasks);
+// });
 
 router.get("/:taskId/members/:memberId", async (req, res) => {
   const { taskId, memberId } = req.params;

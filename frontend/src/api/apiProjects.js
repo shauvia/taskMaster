@@ -140,3 +140,18 @@ export async function getAllProjectTasksByMemberIdAndProjectId(
     throw error;
   }
 }
+
+export async function deleteProject(projectId) {
+  try {
+    const response = await fetch(myApi + "/projects/" + projectId, {
+      method: "DELETE",
+      credentials: "include",
+    });
+
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error("Error deleting project:", error);
+    throw error;
+  }
+}

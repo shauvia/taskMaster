@@ -164,10 +164,10 @@ export async function getAllProjectTasksByMemberIdAndProjectId(
   return tasks;
 }
 
-// deleteProject
-
-//deleteTask
-
-//updateProject
-
-//updateMember
+export async function deleteProjectById(projectId, userId) {
+  const sql = `DELETE FROM projects WHERE id = $1 AND owner_id = $2 RETURNING *`;
+  const {
+    rows: [project],
+  } = await db.query(sql, [projectId, userId]);
+  return project;
+}

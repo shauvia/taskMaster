@@ -6,8 +6,19 @@ export function Profile() {
   const [isOpen, setIsOpen] = useState(false);
   const { deleteAccount, user } = useAuth();
   const navigate = useNavigate();
-  const handleOpen = () => {
-    setIsOpen(!isOpen);
+
+  const openMenu = () => {
+    setIsOpen(true);
+  };
+
+  const closeMenu = () => {
+    setIsOpen(false);
+  };
+
+  const handleBlur = (event) => {
+    if (!event.currentTarget.contains(event.relatedTarget)) {
+      closeMenu();
+    }
   };
 
   const handleDeleteAccount = async () => {
@@ -28,20 +39,36 @@ export function Profile() {
     }
   };
   return (
-    <div className="dropdown">
-      <button type="button" className="profile-trigger" onClick={handleOpen}>
+    <div
+      className="dropdown"
+      onMouseEnter={openMenu}
+      onMouseLeave={closeMenu}
+      onFocus={openMenu}
+      onBlur={handleBlur}
+    >
+      <button
+        type="button"
+        className="profile-trigger"
+        onClick={() => setIsOpen((prev) => !prev)}
+        aria-haspopup="menu"
+        aria-expanded={isOpen}
+      >
         Profile
       </button>
       {isOpen ? (
-        <ul className="profile-dropdown">
+        <ul className="profile-dropdown" role="menu">
           <li className="profile-item">
-            <button type="button">Profile</button>
+            <button type="button" role="menuitem">
+              Profile
+            </button>
           </li>
           <li className="profile-item">
-            <button type="button">Profile Settings</button>
+            <button type="button" role="menuitem">
+              Profile Settings
+            </button>
           </li>
           <li className="profile-item">
-            <button type="button" onClick={handleDeleteAccount}>
+            <button type="button" onClick={handleDeleteAccount} role="menuitem">
               Delete Profile
             </button>
           </li>

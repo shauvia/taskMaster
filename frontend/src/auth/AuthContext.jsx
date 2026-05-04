@@ -26,7 +26,7 @@ export function AuthProvider({ children }) {
     console.log("response", response);
     const result = await response.json();
     console.log("result", result);
-    setUser(result.user || null);
+    return result;
     // const raw = await response.text();
     // console.log("RAW RESPONSE:", raw);
   };

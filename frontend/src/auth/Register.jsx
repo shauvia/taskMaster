@@ -8,19 +8,14 @@ export default function Register() {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!loading && isAuthenticated) {
-      navigate("/account");
-    }
-  }, [loading, isAuthenticated, navigate]);
-
   const tryRegister = async (formData) => {
     setError(null);
     const username = formData.get("username");
     const password = formData.get("password");
+    const email = formData.get("email");
     try {
-      await register({ username, password });
-      navigate("/account");
+      await register({ username, password, email });
+      navigate("/login?registered=1");
     } catch (e) {
       setError(e.message);
     }
@@ -54,6 +49,15 @@ export default function Register() {
             id="password"
             type="password"
             name="password"
+            required
+            disabled={loading}
+          />
+
+          <label htmlFor="email">Email</label>
+          <input
+            id="email"
+            type="email"
+            name="email"
             required
             disabled={loading}
           />

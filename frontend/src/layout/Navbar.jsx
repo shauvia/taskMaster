@@ -39,6 +39,9 @@ export default function Navbar() {
             <NavLink to="/account" className="nav-link">
               Account
             </NavLink>
+            <NavLink to="/calendar" className="nav-link">
+              Calendar
+            </NavLink>
             <button onClick={handleLogOut} className="nav-link logout-link">
               Log out
             </button>

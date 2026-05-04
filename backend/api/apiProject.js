@@ -18,6 +18,7 @@ import {
   updateLinkMemberToProject,
   getAllProjectsByMemberId,
   getAllProjectTasksByMemberIdAndProjectId,
+  deleteProjectById,
 } from "../db/queries/qProjects.js";
 // import { createTask } from "../db/queries/qTasks.js";
 
@@ -140,4 +141,23 @@ router.get("/:id/members/:memberId", async (req, res) => {
     projectId,
   );
   res.json(tasks);
+});
+
+router.delete("/:id", async (req, res) => {
+  const projectId = req.params.id;
+  const userId = req.user.id;
+  const project = await getOneProjectById(projectId);
+  if (!project) {
+    return res
+      .status(404)
+      .json({ success: false, message: "Project not found" });
+  }
+  if (project.owner_id !== userId) {
+    return res.status(403).json({
+      success: false,
+      message: "You are not authorized to delete this project",
+    });
+  }
+  await deleteProjectById(projectId, userId);
+  res.json({ success: true, message: "Project deleted successfully" });
 });

@@ -13,6 +13,20 @@ export async function getTasks() {
   }
 }
 
+export async function getAssignedTasks() {
+  try {
+    const response = await fetch(myApi + "/tasks/assigned", {
+      credentials: "include",
+    });
+    const result = await response.json();
+    console.log("getAssignedTasks result", result);
+    return result;
+  } catch (e) {
+    console.error(e);
+    return [];
+  }
+}
+
 export async function createTask(task) {
   const response = await fetch(myApi + "/tasks", {
     method: "POST",
