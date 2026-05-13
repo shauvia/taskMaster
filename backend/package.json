@@ -16,7 +16,7 @@
     "db:reset": "npm run db:schema && npm run db:seed"
   },
   "engines": {
-    "node": ">=22.0.0"
+    "node": "22.x"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
