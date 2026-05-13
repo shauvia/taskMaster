@@ -22,6 +22,10 @@ app.use(
   }),
 );
 
+app.get("/", (req, res) => {
+  res.status(200).send("API running");
+});
+
 app.use(getUserFromToken);
 app.use("/api/users", usersRouter);
 app.use("/api/tasks", tasksRouter);
