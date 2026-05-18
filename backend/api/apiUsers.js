@@ -127,7 +127,7 @@ router.post(
       .cookie("token", token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
-        sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
         maxAge: 1000 * 60 * 60 * 24,
       })
       .json({ success: true, user: { id: user.id, username: user.username } });
@@ -143,8 +143,15 @@ router.get("/me", (req, res) => {
 });
 
 router.post("/logout", (req, res) => {
-  res.clearCookie("token").json({ success: true });
-});
+  res
+    .clearCookie("token", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      path: "/",
+    })
+    .json({ success: true });
+}); // reliably deletes it because it matches the original cookie settings.
 
 router.get("/", async (req, res) => {
   const users = await getAllUsers();
@@ -196,7 +203,7 @@ router.delete("/:id", async (req, res) => {
   res.clearCookie("token", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     maxAge: 0,
     path: "/",
   });

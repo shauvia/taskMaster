@@ -17,7 +17,7 @@ app.use(morgan("dev"));
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: process.env.FRONTEND_URL || "http://localhost:5173", //Switching from a hard‑coded value to a dynamic environment‑based value.
     credentials: true, // Required to receive cookies from the frontend
   }),
 );

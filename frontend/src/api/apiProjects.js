@@ -1,4 +1,4 @@
-const myApi = "/api";
+const myApi = import.meta.env.VITE_API_URL || "/api"; //Switching from a hard‑coded value to a dynamic environment‑based value.
 
 export async function getProjects() {
   try {
