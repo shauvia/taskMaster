@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ProjTaskList } from "./ProjectTasklist.jsx";
+import { ProjTaskList } from "./ProjectTaskList.jsx";
 import { Link } from "react-router";
 import { getAllProjectTasks } from "../api/apiProjects.js";
 
