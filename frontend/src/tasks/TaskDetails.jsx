@@ -12,6 +12,16 @@ export default function TaskDetails() {
   const { taskId } = useParams();
   const navigate = useNavigate();
 
+  function formatDateOnly(dateValue) {
+    if (!dateValue) return "No due date";
+    const [year, month, day] = dateValue.slice(0, 10).split("-").map(Number);
+    return new Date(year, month - 1, day).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  }
+
   let task;
   const syncTask = async () => {
     task = await getTask(taskId);
@@ -64,15 +74,7 @@ export default function TaskDetails() {
     <div className="task-detail-view">
       <h3>{form.name}</h3>
       <p>{form.description}</p>
-      <p>
-        {form.due_date
-          ? new Date(form.due_date).toLocaleDateString("en-US", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })
-          : "No due date"}
-      </p>
+      <p>{formatDateOnly(form.due_date)}</p>
       <button
         onClick={() => {
           setEditing(true);

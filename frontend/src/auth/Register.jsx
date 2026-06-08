@@ -1,15 +1,18 @@
 import { useAuth } from "./AuthContext";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import logo from "../logo/logo.png";
+import Spinner from "../shared/Spinner.jsx";
 
 export default function Register() {
-  const { register, loading, isAuthenticated } = useAuth();
+  const { register, loading } = useAuth();
+  const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   const tryRegister = async (formData) => {
     setError(null);
+    setSubmitting(true);
     const username = formData.get("username");
     const password = formData.get("password");
     const email = formData.get("email");
@@ -18,6 +21,8 @@ export default function Register() {
       navigate("/login?registered=1");
     } catch (e) {
       setError(e.message);
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -38,7 +43,7 @@ export default function Register() {
             required
             // aria-describedby="username-error" what does it do?
 
-            disabled={loading}
+            disabled={loading || submitting}
           />
           {/* <span id="username-error" role="alert" style={{ color: "red" }}>
             Username is required
@@ -50,7 +55,7 @@ export default function Register() {
             type="password"
             name="password"
             required
-            disabled={loading}
+            disabled={loading || submitting}
           />
 
           <label htmlFor="email">Email</label>
@@ -59,9 +64,12 @@ export default function Register() {
             type="email"
             name="email"
             required
-            disabled={loading}
+            disabled={loading || submitting}
           />
-          <button disabled={loading}>Register</button>
+          <button disabled={loading || submitting}>
+            {submitting ? "Creating account..." : "Register"}
+          </button>
+          {submitting && <Spinner label="Creating your account..." />}
           {error && <p role="alert">{error}</p>}
         </form>
         <Link className="regLabel" to="/login">

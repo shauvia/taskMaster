@@ -2,9 +2,12 @@ import { useAuth } from "./AuthContext";
 import { useState, useEffect } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router";
 import logo from "../logo/logo.png";
+import Spinner from "../shared/Spinner.jsx";
 
 export default function Login() {
   const { login, isAuthenticated, loading } = useAuth();
+  const [submitting, setSubmitting] = useState(false);
+
   const [error, setError] = useState(null);
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -28,6 +31,7 @@ export default function Login() {
 
   const tryLogin = async (formData) => {
     setError(null);
+    setSubmitting(true);
     try {
       const loginCredentials = {
         username: formData.get("username"),
@@ -37,6 +41,8 @@ export default function Login() {
       navigate("/account");
     } catch (e) {
       setError(e.message);
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -52,12 +58,26 @@ export default function Login() {
           </p>
         )}
         <label htmlFor="username">Username</label>
-        <input id="username" type="text" name="username" required />
-
+        <input
+          id="username"
+          type="text"
+          name="username"
+          required
+          disabled={loading || submitting}
+        />
         <label htmlFor="password">Password</label>
-        <input id="password" type="password" name="password" required />
-
-        <button>Login</button>
+        <input
+          id="password"
+          type="password"
+          name="password"
+          required
+          disabled={loading || submitting}
+        />
+        <button disabled={loading || submitting}>
+          {submitting ? "Logging in..." : "Login"}
+        </button>
+        {/* Disable button while loading or submitting to prevent multiple submissions */}
+        {submitting && <Spinner label="Signing you in..." />}
         {error && <p role="alert">{error}</p>}
       </form>
     </div>

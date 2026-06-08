@@ -862,7 +862,7 @@ button.delete:hover {
 }
 
 .calendar-sidebar {
-  flex: 0 0 220px;        /* fixed width, won't grow or shrink */
+  flex: 0 0 220px; /* fixed width, won't grow or shrink */
   overflow-y: auto;
   max-height: 600px;
   padding: 0 0.5rem;
@@ -908,3 +908,35 @@ button.delete:hover {
   color: rgb(100, 150, 150);
   margin-top: 0.15rem;
 }
+
+.spinner-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+}
+.spinner {
+  width: 28px;
+  height: 28px;
+  border: 3px solid #ddd;
+  border-top-color: #333;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/*above is a shorthand of 
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+} */
+
+/* @keyframes spin defines how something rotates.
+animation: spin ... defines when and how fast it rotates.
+
+Together, they create the spinning circle you see in your UI. */

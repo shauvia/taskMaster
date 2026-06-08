@@ -14,6 +14,16 @@ export default function ProjectTaskDetails() {
   const { projectId, taskId } = useParams();
   const navigate = useNavigate();
 
+  function formatDateOnly(dateValue) {
+    if (!dateValue) return "No due date";
+    const [year, month, day] = dateValue.slice(0, 10).split("-").map(Number);
+    return new Date(year, month - 1, day).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  }
+
   let task;
   const syncThisTask = async () => {
     task = await getTask(taskId);
@@ -64,7 +74,7 @@ export default function ProjectTaskDetails() {
         due_date: form.due_date,
         assignee_id: form.assignee_id,
       };
-      let updatedTask = await updateProjectTask(editedTask, projectId, taskId);
+      await updateProjectTask(editedTask, projectId, taskId);
       await syncProjectTasks();
       setEditing(false);
     } catch (e) {
@@ -76,15 +86,7 @@ export default function ProjectTaskDetails() {
     <div className="task-detail-view">
       <h3>{form.name}</h3>
       <p>{form.description}</p>
-      <p>
-        {form.due_date
-          ? new Date(form.due_date).toLocaleDateString("en-US", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })
-          : "No due date"}
-      </p>
+      <p>{formatDateOnly(form.due_date)}</p>
       <p>
         Assigned to:{" "}
         {form.assignee_id
