@@ -12,6 +12,8 @@ export default function Login() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
+  console.log("Login component, isAuthenticated:");
+
   const verified = searchParams.get("verified");
   const registered = searchParams.get("registered");
   const statusMessage =
@@ -29,21 +31,32 @@ export default function Login() {
     }
   }, [loading, isAuthenticated, navigate]);
 
-  const tryLogin = async (formData) => {
+  const tryLogin = (formData) => {
+    const startedAt = Date.now();
     setError(null);
     setSubmitting(true);
-    try {
-      const loginCredentials = {
-        username: formData.get("username"),
-        password: formData.get("password"),
-      };
-      await login(loginCredentials);
-      navigate("/account");
-    } catch (e) {
-      setError(e.message);
-    } finally {
-      setSubmitting(false);
-    }
+    var body = async () => {
+      try {
+        const loginCredentials = {
+          username: formData.get("username"),
+          password: formData.get("password"),
+        };
+        await login(loginCredentials);
+        navigate("/account");
+      } catch (e) {
+        setError(e.message);
+      } finally {
+        const elapsed = Date.now() - startedAt;
+        const minVisible = 450;
+        if (elapsed < minVisible) {
+          await new Promise((resolve) =>
+            setTimeout(resolve, minVisible - elapsed),
+          );
+        }
+        setSubmitting(false);
+      }
+    };
+    body();
   };
 
   return (
@@ -77,7 +90,9 @@ export default function Login() {
           {submitting ? "Logging in..." : "Login"}
         </button>
         {/* Disable button while loading or submitting to prevent multiple submissions */}
-        {submitting && <Spinner label="Signing you in..." />}
+        {submitting && (
+          <Spinner className="auth-spinner" label="Signing you in..." />
+        )}
         {error && <p role="alert">{error}</p>}
       </form>
     </div>

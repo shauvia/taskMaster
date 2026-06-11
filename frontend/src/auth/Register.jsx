@@ -11,19 +11,30 @@ export default function Register() {
   const navigate = useNavigate();
 
   const tryRegister = async (formData) => {
+    const startedAt = Date.now();
     setError(null);
     setSubmitting(true);
-    const username = formData.get("username");
-    const password = formData.get("password");
-    const email = formData.get("email");
-    try {
-      await register({ username, password, email });
-      navigate("/login?registered=1");
-    } catch (e) {
-      setError(e.message);
-    } finally {
-      setSubmitting(false);
-    }
+    let body = async () => {
+      const username = formData.get("username");
+      const password = formData.get("password");
+      const email = formData.get("email");
+      try {
+        await register({ username, password, email });
+        navigate("/login?registered=1");
+      } catch (e) {
+        setError(e.message);
+      } finally {
+        const elapsed = Date.now() - startedAt;
+        const minVisible = 450;
+        if (elapsed < minVisible) {
+          await new Promise((resolve) =>
+            setTimeout(resolve, minVisible - elapsed),
+          );
+        }
+        setSubmitting(false);
+      }
+    };
+    body();
   };
 
   return (
@@ -69,7 +80,12 @@ export default function Register() {
           <button disabled={loading || submitting}>
             {submitting ? "Creating account..." : "Register"}
           </button>
-          {submitting && <Spinner label="Creating your account..." />}
+          {submitting && (
+            <Spinner
+              className="auth-spinner"
+              label="Creating your account..."
+            />
+          )}
           {error && <p role="alert">{error}</p>}
         </form>
         <Link className="regLabel" to="/login">

@@ -924,6 +924,24 @@ button.delete:hover {
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
+
+.auth-spinner {
+  margin-top: 0.5rem;
+}
+
+.auth-spinner .spinner {
+  width: 30px;
+  height: 30px;
+  border: 3px solid rgba(110, 167, 167, 0.3);
+  border-top-color: rgb(79, 144, 144);
+}
+
+.auth-spinner p {
+  margin: 0;
+  color: rgb(79, 144, 144);
+  font-size: 0.8rem;
+}
+
 @keyframes spin {
   to {
     transform: rotate(360deg);
